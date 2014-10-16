@@ -1,0 +1,10 @@
+.idea/
+.gradle/
+build/
+target/
+*.yml
+*.sqlite
+*.log
+*.bat
+*.sh
+*.iml

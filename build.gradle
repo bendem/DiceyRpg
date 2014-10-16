@@ -1,0 +1,48 @@
+defaultTasks 'clean', 'build'
+
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
+
+group = 'be.bendem.bot'
+version = '1.0'
+description = "RpgBot"
+
+// Minimum Java version required
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// Compile encoding
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+// Simple build script information
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.2'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.ribesg.fr/content/repositories/snapshots" }
+}
+
+dependencies {
+    compile group: 'fr.ribesg.alix', name: 'alix', version: '0.5-SNAPSHOT'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.6'
+}
+
+shadowJar {
+    dependencies {}
+}
+
+// Jar manifest information
+jar.manifest.mainAttributes(
+    'Main-Class': "be.bendem.bot.RpgBot",
+    'Sealed': true
+)
