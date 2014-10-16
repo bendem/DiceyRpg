@@ -2,7 +2,10 @@ package be.bendem.bot.entities;
 
 import be.bendem.bot.dices.Dice;
 import be.bendem.bot.game.CampaignPart;
+import be.bendem.bot.items.Item;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -20,4 +23,10 @@ public class Monster extends Entity {
         // TODO
         return false;
     }
+
+    public Collection<Item> loot(Random random) {
+        // TODO
+        return Collections.emptySet();
+    }
+
 }

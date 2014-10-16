@@ -2,7 +2,9 @@ package be.bendem.bot.entities;
 
 import be.bendem.bot.dices.Dice;
 import be.bendem.bot.game.CampaignPart;
+import be.bendem.bot.items.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -11,10 +13,12 @@ import java.util.Random;
  */
 public class Player extends Entity {
 
-    protected int level;
+    private final List<Item> inventory;
+    private int level;
 
-    protected Player(List<Dice> dices, String name, int maxHealth) {
+    public Player(List<Dice> dices, String name, int maxHealth) {
         super(dices, name, maxHealth);
+        inventory = new ArrayList<>();
         level = 1;
     }
 
@@ -31,4 +35,5 @@ public class Player extends Entity {
     public void incrementLevel() {
         level++;
     }
+
 }

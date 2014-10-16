@@ -13,4 +13,5 @@ public class Campaign {
     public Campaign() {
         parts = new ArrayList<>();
     }
+
 }
