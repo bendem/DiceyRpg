@@ -39,7 +39,7 @@ public class RpgBot extends Client {
             }
         }
 
-        commandManager = createCommandManager("!", Collections.EMPTY_SET);
+        commandManager = createCommandManager("!", Collections.emptySet());
         loadItMyself();
         getServers().forEach(Server::connect);
     }
