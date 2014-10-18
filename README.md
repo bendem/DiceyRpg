@@ -9,8 +9,4 @@ We use gradle, I have no idea how it works so if it doesn't build with
 
 ## License
 
-We asked a bot, he chose MIT:
-```
-[16:37:31] <@bendem> `choose MIT, Apache
-[16:37:32] <Georges> bendem, MIT
-```
+We are Apache 2.0
