@@ -13,6 +13,9 @@ import java.util.Random;
  */
 public class Player extends Entity {
 
+    private static final int BASE_HEALTH = 20;
+    private static final int HEALTH_PER_LEVEL = 10;
+
     private final List<Item> inventory;
     private int level;
 
@@ -28,12 +31,18 @@ public class Player extends Entity {
         return false;
     }
 
+    @Override
+    public int getMaxHealth() {
+        return BASE_HEALTH + level * HEALTH_PER_LEVEL;
+    }
+
     public int getLevel() {
         return level;
     }
 
     public void incrementLevel() {
         level++;
+        // TODO Increment stats, give custom stat point(s), etc.
     }
 
 }

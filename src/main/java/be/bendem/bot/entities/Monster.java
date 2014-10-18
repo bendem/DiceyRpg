@@ -14,8 +14,11 @@ import java.util.Random;
  */
 public class Monster extends Entity {
 
-    protected Monster(List<Dice> dices, String name, int maxHealth) {
-        super(dices, name, maxHealth);
+    private final int maxHealth;
+
+    protected Monster(List<Dice> dices, String name, int health) {
+        super(dices, name, health);
+        maxHealth = health;
     }
 
     @Override
@@ -27,6 +30,11 @@ public class Monster extends Entity {
     public Collection<Item> loot(Random random) {
         // TODO
         return Collections.emptySet();
+    }
+
+    @Override
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
 }

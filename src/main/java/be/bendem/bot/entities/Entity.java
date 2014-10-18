@@ -13,18 +13,12 @@ public abstract class Entity {
 
     protected List<Dice> dices;
     protected final String name;
-    protected int health;
-    protected int maxHealth;
+    private int currentHealth;
 
-    protected Entity(List<Dice> dices, String name, int maxHealth) {
-        this(dices, name, maxHealth, maxHealth);
-    }
-
-    protected Entity(List<Dice> dices, String name, int health, int maxHealth) {
+    protected Entity(List<Dice> dices, String name, int currentHealth) {
         this.dices = dices;
         this.name = name;
-        this.health = health;
-        this.maxHealth = maxHealth;
+        this.currentHealth = currentHealth;
     }
 
     public abstract boolean takeTurn(CampaignPart campaignPart, Random random);
@@ -41,20 +35,22 @@ public abstract class Entity {
         return name;
     }
 
-    public int getHealth() {
-        return health;
+    public abstract int getMaxHealth();
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void damage(int damage) {
+        currentHealth -= damage > currentHealth ? currentHealth : damage;
     }
 
-    public int getMaxHealth() {
-        return maxHealth;
+    public void heal(int heal) {
+        currentHealth += heal;
     }
 
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
+    public boolean isDead() {
+        return currentHealth == 0;
     }
 
 }
