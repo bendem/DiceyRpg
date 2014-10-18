@@ -36,6 +36,16 @@ public class Player extends Entity {
         return BASE_HEALTH + level * HEALTH_PER_LEVEL;
     }
 
+    @Override
+    public void shield(int shield) {
+        // TODO
+    }
+
+    @Override
+    public void poison(int damage, int turns) {
+        // TODO
+    }
+
     public int getLevel() {
         return level;
     }

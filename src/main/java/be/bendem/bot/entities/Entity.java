@@ -49,6 +49,9 @@ public abstract class Entity {
         currentHealth += heal;
     }
 
+    public abstract void shield(int shield);
+    public abstract void poison(int damage, int turns);
+
     public boolean isDead() {
         return currentHealth == 0;
     }
