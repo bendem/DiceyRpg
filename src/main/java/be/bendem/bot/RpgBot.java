@@ -3,73 +3,58 @@ package be.bendem.bot;
 import be.bendem.bot.commands.LoadCommand;
 import be.bendem.bot.commands.SaveCommand;
 import be.bendem.bot.commands.StartCommand;
-import fr.ribesg.alix.api.Client;
-import fr.ribesg.alix.api.Log;
-import fr.ribesg.alix.api.Server;
-import fr.ribesg.alix.api.bot.command.Command;
-import fr.ribesg.alix.api.bot.command.CommandManager;
-import fr.ribesg.alix.api.bot.config.AlixConfiguration;
-import fr.ribesg.alix.api.bot.util.PasteUtil;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import be.bendem.bot.commands.handling.Command;
+import be.bendem.bot.commands.handling.CommandHandler;
+import org.kitteh.irc.client.library.AuthType;
+import org.kitteh.irc.client.library.Client;
+import org.kitteh.irc.client.library.ClientBuilder;
 
-import java.io.IOException;
-import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author bendem
  */
-public class RpgBot extends Client {
+public class RpgBot {
 
-    private final AlixConfiguration config;
-    private final CommandManager commandManager;
+    private final CommandHandler commandHandler;
+    private final Client client;
 
     public RpgBot() {
-        super("RpgBot");
-        logger.info("Starting up...");
+        commandHandler = new CommandHandler();
+        load();
 
-        PasteUtil.setMode(null);
+        client = new ClientBuilder()
 
-        config = new AlixConfiguration("");
-        if(!config.exists()) {
-            try {
-                config.save();
-            } catch(IOException e) {
-                getLogger().error("Error while loading config", e);
-            }
-        }
+            .auth(AuthType.NICKSERV, "bendem", "<redacted>")
+            .realName("TODO")
+            .nick("TODO")
 
-        commandManager = createCommandManager("!", Collections.emptySet());
-        loadItMyself();
-        getServers().forEach(Server::connect);
+            .secure(true)
+            .server(6697)
+            .server("ipv6.irc.esper.net")
+
+            .build();
     }
 
-    private void loadItMyself() {
-        getServers().addAll(config.getServers());
-
+    private void load() {
         register(new StartCommand());
         register(new SaveCommand());
         register(new LoadCommand());
     }
 
     private void register(Command command) {
-        commandManager.registerCommand(command);
-    }
-
-    @Override
-    protected boolean load() {
-        return true;
+        commandHandler.register(command);
     }
 
     public static void main(final String args[]) {
-        Log.get().setLevel(Level.INFO);
         RpgBot bot = new RpgBot();
 
         while(!System.console().readLine().equalsIgnoreCase("stop"));
-        bot.kill();
+        bot.client.shutdown("Bye peps...");
     }
 
-    private static final Logger logger = Logger.getLogger("Georges");
+    private static final Logger logger = Logger.getLogger("Bot");
     static {
         logger.setLevel(Level.ALL);
     }

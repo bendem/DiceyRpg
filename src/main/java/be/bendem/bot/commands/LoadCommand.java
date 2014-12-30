@@ -1,24 +1,23 @@
 package be.bendem.bot.commands;
 
-import fr.ribesg.alix.api.Channel;
-import fr.ribesg.alix.api.Server;
-import fr.ribesg.alix.api.Source;
-import fr.ribesg.alix.api.bot.command.Command;
+import be.bendem.bot.commands.handling.BaseCommand;
+import be.bendem.bot.commands.handling.Command;
+import org.kitteh.irc.client.library.element.Channel;
+import org.kitteh.irc.client.library.element.User;
+
+import java.util.List;
 
 /**
  * @author bendem
  */
-public class LoadCommand extends Command {
+public class LoadCommand extends BaseCommand {
 
     public LoadCommand() {
-        super("load", new String[] { "Loads a saved game - Usage ## <save-id>" });
+        super("load", "game.load", "Loads a saved game - Usage ## <save-id>");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public boolean exec(Server server, Channel channel, Source user, String primaryArgument, String[] args) {
-        return false;
+    public void perform(Channel channel, User user, List<String> arguments) {
     }
+
 }

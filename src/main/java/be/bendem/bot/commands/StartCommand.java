@@ -1,28 +1,25 @@
 package be.bendem.bot.commands;
 
-import fr.ribesg.alix.api.Channel;
-import fr.ribesg.alix.api.Server;
-import fr.ribesg.alix.api.Source;
-import fr.ribesg.alix.api.bot.command.Command;
+import be.bendem.bot.commands.handling.BaseCommand;
+import org.kitteh.irc.client.library.element.Channel;
+import org.kitteh.irc.client.library.element.User;
+
+import java.util.List;
 
 /**
  * @author bendem
  */
-public class StartCommand extends Command {
+public class StartCommand extends BaseCommand {
 
     /**
      * {@inheritDoc}
      */
     public StartCommand() {
-        super("start", new String[] { "Starts a new game." });
+        super("start", "game.start", "Starts a new game.");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public boolean exec(Server server, Channel channel, Source user, String primaryArgument, String[] args) {
-        // TODO
-        return false;
+    public void perform(Channel channel, User user, List<String> args) {
     }
+
 }

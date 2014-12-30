@@ -29,11 +29,11 @@ buildscript {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "http://repo.ribesg.fr/content/repositories/snapshots" }
+    maven { url "http://repo.kitteh.org/content/repositories/snapshots" }
 }
 
 dependencies {
-    compile group: 'fr.ribesg.alix', name: 'alix', version: '0.5-SNAPSHOT'
+    compile group: 'org.kitteh.irc', name: 'client-lib', version: '0.1.5-SNAPSHOT'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.6'
 }
 

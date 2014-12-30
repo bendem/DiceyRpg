@@ -1,26 +1,22 @@
 package be.bendem.bot.commands;
 
-import fr.ribesg.alix.api.Channel;
-import fr.ribesg.alix.api.Server;
-import fr.ribesg.alix.api.Source;
-import fr.ribesg.alix.api.bot.command.Command;
+import be.bendem.bot.commands.handling.BaseCommand;
+import org.kitteh.irc.client.library.element.Channel;
+import org.kitteh.irc.client.library.element.User;
+
+import java.util.List;
 
 /**
  * @author bendem
  */
-public class SaveCommand extends Command {
+public class SaveCommand extends BaseCommand {
 
     public SaveCommand() {
-        super("save", new String[] {
-            "Saves the current state of the game and gives the save-id needed to restart it"
-        });
+        super("save", "game.save", "Saves the current state of the game and gives the save-id needed to restart it");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public boolean exec(Server server, Channel channel, Source user, String primaryArgument, String[] args) {
-        return false;
+    public void perform(Channel channel, User user, List<String> args) {
     }
+
 }
