@@ -18,10 +18,10 @@ import java.util.logging.Logger;
 public class RpgBot {
 
     private final CommandHandler commandHandler;
-    private final Client client;
+    public final Client client;
 
     public RpgBot() {
-        commandHandler = new CommandHandler();
+        commandHandler = new CommandHandler(this, ".");
         load();
 
         client = new ClientBuilder()
