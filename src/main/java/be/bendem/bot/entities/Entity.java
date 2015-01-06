@@ -1,6 +1,6 @@
 package be.bendem.bot.entities;
 
-import be.bendem.bot.dices.Dice;
+import be.bendem.bot.dice.Die;
 import be.bendem.bot.game.CampaignPart;
 
 import java.util.List;
@@ -11,24 +11,24 @@ import java.util.Random;
  */
 public abstract class Entity {
 
-    protected List<Dice> dices;
+    protected List<Die> dice;
     protected final String name;
     private int currentHealth;
 
-    protected Entity(List<Dice> dices, String name, int currentHealth) {
-        this.dices = dices;
+    protected Entity(List<Die> dice, String name, int currentHealth) {
+        this.dice = dice;
         this.name = name;
         this.currentHealth = currentHealth;
     }
 
     public abstract boolean takeTurn(CampaignPart campaignPart, Random random);
 
-    public List<Dice> getDices() {
-        return dices;
+    public List<Die> getDice() {
+        return dice;
     }
 
-    public void setDices(List<Dice> dices) {
-        this.dices = dices;
+    public void setDice(List<Die> dice) {
+        this.dice = dice;
     }
 
     public String getName() {

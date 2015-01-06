@@ -1,6 +1,6 @@
 package be.bendem.bot.items;
 
-import be.bendem.bot.dices.Dice;
+import be.bendem.bot.dice.Die;
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,27 +10,27 @@ import java.util.function.Consumer;
 /**
  * @author bendem
  */
-public class DiceSet implements Item, Iterable<Dice> {
+public class DiceSet implements Item, Iterable<Die> {
 
-    protected List<Dice> dices;
+    protected List<Die> dice;
 
     @Override
     public ItemType getType() {
-        return ItemType.DiceSet;
+        return ItemType.DieSet;
     }
 
     @Override
-    public Iterator<Dice> iterator() {
-        return dices.iterator();
+    public Iterator<Die> iterator() {
+        return dice.iterator();
     }
 
     @Override
-    public void forEach(Consumer<? super Dice> consumer) {
-        dices.forEach(consumer);
+    public void forEach(Consumer<? super Die> consumer) {
+        dice.forEach(consumer);
     }
 
     @Override
-    public Spliterator<Dice> spliterator() {
-        return dices.spliterator();
+    public Spliterator<Die> spliterator() {
+        return dice.spliterator();
     }
 }

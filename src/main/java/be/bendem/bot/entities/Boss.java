@@ -1,6 +1,6 @@
 package be.bendem.bot.entities;
 
-import be.bendem.bot.dices.Dice;
+import be.bendem.bot.dice.Die;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Boss extends Monster {
 
-    protected Boss(List<Dice> dices, String name, int maxHealth) {
-        super(dices, name, maxHealth);
+    protected Boss(List<Die> dice, String name, int maxHealth) {
+        super(dice, name, maxHealth);
     }
 }

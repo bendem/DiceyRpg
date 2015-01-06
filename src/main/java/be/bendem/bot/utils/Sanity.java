@@ -1,7 +1,5 @@
 package be.bendem.bot.utils;
 
-import java.util.Arrays;
-
 /**
  * @author bendem
  */

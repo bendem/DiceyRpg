@@ -1,4 +1,4 @@
-package be.bendem.bot.dices;
+package be.bendem.bot.dice;
 
 import be.bendem.bot.entities.Entity;
 import be.bendem.bot.items.Item;
@@ -12,21 +12,21 @@ import java.util.Random;
  *
  * @author bendem
  */
-public abstract class Dice implements Item {
+public abstract class Die implements Item {
 
     protected final int min;
     protected final int max;
     protected final boolean fails;
 
     /**
-     * Creates a Dice with a minimum and a maximum of faces and wether or not
+     * Creates a Die with a minimum and a maximum of faces and wether or not
      * the entity should receive a turn penalty when 1 is rolled.
      *
      * @param min the minimum number a roll can be
      * @param max the maximum number a roll can be
      * @param fails wether rolling 1 causes a turn penalty
      */
-    protected Dice(int min, int max, boolean fails) {
+    protected Die(int min, int max, boolean fails) {
         Sanity.truthness(max >= min, "The max result of a dice should be greater than the min");
         this.min = min;
         this.max = max;
@@ -62,7 +62,7 @@ public abstract class Dice implements Item {
 
     @Override
     public ItemType getType() {
-        return ItemType.Dice;
+        return ItemType.Die;
     }
 
 }

@@ -1,6 +1,6 @@
 package be.bendem.bot.entities;
 
-import be.bendem.bot.dices.Dice;
+import be.bendem.bot.dice.Die;
 import be.bendem.bot.game.CampaignPart;
 import be.bendem.bot.items.Item;
 
@@ -16,8 +16,8 @@ public class Monster extends Entity {
 
     private final int maxHealth;
 
-    protected Monster(List<Dice> dices, String name, int health) {
-        super(dices, name, health);
+    protected Monster(List<Die> dice, String name, int health) {
+        super(dice, name, health);
         maxHealth = health;
     }
 

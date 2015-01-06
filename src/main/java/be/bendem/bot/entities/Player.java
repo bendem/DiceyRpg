@@ -1,6 +1,6 @@
 package be.bendem.bot.entities;
 
-import be.bendem.bot.dices.Dice;
+import be.bendem.bot.dice.Die;
 import be.bendem.bot.game.CampaignPart;
 import be.bendem.bot.items.Item;
 
@@ -19,8 +19,8 @@ public class Player extends Entity {
     private final List<Item> inventory;
     private int level;
 
-    public Player(List<Dice> dices, String name, int maxHealth) {
-        super(dices, name, maxHealth);
+    public Player(List<Die> dice, String name, int maxHealth) {
+        super(dice, name, maxHealth);
         inventory = new ArrayList<>();
         level = 1;
     }

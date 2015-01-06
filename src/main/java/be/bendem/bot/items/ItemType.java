@@ -5,6 +5,6 @@ package be.bendem.bot.items;
  */
 public enum ItemType {
 
-    SlotUpgrade, Money, Dice, DiceSet, CraftingMaterial
+    SlotUpgrade, Money, Die, DieSet, CraftingMaterial
 
 }
