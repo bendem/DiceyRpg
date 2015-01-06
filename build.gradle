@@ -1,7 +1,7 @@
-defaultTasks 'clean', 'build'
-
-apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
+plugins {
+  id 'java'
+  id 'com.github.johnrengelman.shadow' version '1.2.0'
+}
 
 group = 'be.bendem.bot'
 version = '1.0'
@@ -16,16 +16,6 @@ compileJava {
     options.encoding = 'UTF-8'
 }
 
-// Simple build script information
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.2'
-    }
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -33,13 +23,17 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.kitteh.irc', name: 'client-lib', version: '0.1.5-SNAPSHOT'
+    compile group: 'org.kitteh.irc', name: 'client-lib', version: '0.1.6-SNAPSHOT'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.6'
 }
 
 shadowJar {
-    dependencies {}
+    dependencies {
+        include(dependency('org.kitteh.irc:client-lib:0.1.6-SNAPSHOT'))
+        include(dependency('org.xerial:sqlite-jdbc:3.8.6'))
+    }
 }
+build.dependsOn(shadowJar)
 
 // Jar manifest information
 jar.manifest.mainAttributes(
