@@ -23,13 +23,13 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.kitteh.irc', name: 'client-lib', version: '0.1.6-SNAPSHOT'
+    compile group: 'org.kitteh.irc', name: 'client-lib', version: '0.1.7-SNAPSHOT'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.6'
 }
 
 shadowJar {
     dependencies {
-        include(dependency('org.kitteh.irc:client-lib:0.1.6-SNAPSHOT'))
+        include(dependency('org.kitteh.irc:client-lib:0.1.7-SNAPSHOT'))
         include(dependency('org.xerial:sqlite-jdbc:3.8.6'))
     }
 }

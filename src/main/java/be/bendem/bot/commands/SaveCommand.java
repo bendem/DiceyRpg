@@ -1,6 +1,7 @@
 package be.bendem.bot.commands;
 
 import be.bendem.bot.commands.handling.BaseCommand;
+import org.kitteh.irc.client.library.Client;
 import org.kitteh.irc.client.library.element.Channel;
 import org.kitteh.irc.client.library.element.User;
 
@@ -16,7 +17,7 @@ public class SaveCommand extends BaseCommand {
     }
 
     @Override
-    public void perform(Channel channel, User user, List<String> args) {
+    public void perform(Client client, Channel channel, User user, List<String> args) {
     }
 
 }

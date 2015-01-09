@@ -1,6 +1,7 @@
 package be.bendem.bot;
 
 import be.bendem.bot.commands.LoadCommand;
+import be.bendem.bot.commands.QuitCommand;
 import be.bendem.bot.commands.SaveCommand;
 import be.bendem.bot.commands.StartCommand;
 import be.bendem.bot.commands.handling.Command;
@@ -21,23 +22,30 @@ public class RpgBot {
     public final Client client;
 
     public RpgBot() {
-        commandHandler = new CommandHandler(this, ".");
-        load();
-
         client = new ClientBuilder()
 
-            .auth(AuthType.NICKSERV, "bendem", "<redacted>")
-            .realName("TODO")
-            .nick("TODO")
+            .auth(AuthType.NICKSERV, "DiceyGameMaster", "<redacted>")
+            .realName("DiceyRpg Game Mater (at your service)")
+            .nick("DiceyGameMaster")
 
             .secure(true)
             .server(6697)
-            .server("ipv6.irc.esper.net")
+            //.server("ipv6.irc.esper.net")
+            .server("irc.esper.net")
+            .listenException(Throwable::printStackTrace)
+            .listenInput(str  -> System.out.println("< " + str))
+            .listenOutput(str -> System.out.println("> " + str))
 
             .build();
+
+        client.addChannel("#DiceyRpg");
+
+        commandHandler = new CommandHandler(this, ".");
+        load();
     }
 
     private void load() {
+        register(new QuitCommand());
         register(new StartCommand());
         register(new SaveCommand());
         register(new LoadCommand());
@@ -49,9 +57,6 @@ public class RpgBot {
 
     public static void main(final String args[]) {
         RpgBot bot = new RpgBot();
-
-        while(!System.console().readLine().equalsIgnoreCase("stop"));
-        bot.client.shutdown("Bye peps...");
     }
 
     private static final Logger logger = Logger.getLogger("Bot");

@@ -7,17 +7,15 @@ import org.kitteh.irc.client.library.element.User;
 
 import java.util.List;
 
-/**
- * @author bendem
- */
-public class LoadCommand extends BaseCommand {
+public class QuitCommand extends BaseCommand {
 
-    public LoadCommand() {
-        super("load", "game.load", "Loads a saved game - Usage ## <save-id>");
+    public QuitCommand() {
+        super("quit", "admin.quit", "Disconnects the bot - Usage: ##");
     }
 
     @Override
     public void perform(Client client, Channel channel, User user, List<String> arguments) {
+        client.shutdown(user.getName() + " told me to quit.");
     }
 
 }

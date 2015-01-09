@@ -28,7 +28,7 @@ public class CommandHandler {
     }
 
     public void register(Command command) {
-        commands.put(command.getName(), command);
+        commands.put(command.getName().toLowerCase(), command);
     }
 
     public void handle(String message, Channel channel, User user) {
@@ -36,7 +36,7 @@ public class CommandHandler {
         if(args.length == 0) {
             return;
         }
-        String commandName = args[0];
+        String commandName = args[0].toLowerCase();
         Command command = commands.get(commandName);
         if(command == null) {
             return;
@@ -48,7 +48,7 @@ public class CommandHandler {
             return;
         }
 
-        command.perform(channel, user, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
+        command.perform(rpgBot.client, channel, user, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
     }
 
     @EventHandler
