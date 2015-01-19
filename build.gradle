@@ -23,14 +23,18 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.kitteh.irc', name: 'client-lib', version: '0.1.7-SNAPSHOT'
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.6'
+    compile group: 'org.kitteh.irc',   name: 'client-lib',   version: '0.1.7-SNAPSHOT'
+    compile group: 'com.j256.ormlite', name: 'ormlite-core', version: '4.49-SNAPSHOT'
+    compile group: 'com.j256.ormlite', name: 'ormlite-jdbc', version: '4.49-SNAPSHOT'
+    compile group: 'com.h2database',   name: 'h2',           version: '1.4.185'
 }
 
 shadowJar {
     dependencies {
         include(dependency('org.kitteh.irc:client-lib:0.1.7-SNAPSHOT'))
-        include(dependency('org.xerial:sqlite-jdbc:3.8.6'))
+        include(dependency('com.j256.ormlite:ormlite-core:4.49-SNAPSHOT'))
+        include(dependency('com.j256.ormlite:ormlite-jdbc:4.49-SNAPSHOT'))
+        include(dependency('com.h2database:h2:1.4.185'))
     }
 }
 build.dependsOn(shadowJar)

@@ -6,10 +6,13 @@ import be.bendem.bot.commands.SaveCommand;
 import be.bendem.bot.commands.StartCommand;
 import be.bendem.bot.commands.handling.Command;
 import be.bendem.bot.commands.handling.CommandHandler;
+import be.bendem.bot.storage.DataBase;
 import org.kitteh.irc.client.library.AuthType;
 import org.kitteh.irc.client.library.Client;
 import org.kitteh.irc.client.library.ClientBuilder;
 
+import java.io.File;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +25,13 @@ public class RpgBot {
     public final Client client;
 
     public RpgBot() {
+        DataBase dataBase;
+        try {
+            dataBase = new DataBase(new File("./data"));
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not access setup db", e);
+        }
+
         client = new ClientBuilder()
 
             .auth(AuthType.NICKSERV, "DiceyGameMaster", "<redacted>")

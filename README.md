@@ -6,8 +6,9 @@ Yeah, but this one is cooler, that's a rpg one, there are dices and bans \o/
 
 ## Compilation
 
-We use gradle, I have no idea how it works so if it doesn't build with
-``gradle``, I have no idea why.
+We use gradle, to manage dependencies, but we use latest version of ormlite which is not available on maven central,
+you'll need to clone and install https://github.com/j256/ormlite-core and https://github.com/j256/ormlite-jdbc
+into your local maven repo first.
 
 ## License
 
