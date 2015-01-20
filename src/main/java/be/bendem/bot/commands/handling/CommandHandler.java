@@ -44,7 +44,7 @@ public class CommandHandler {
 
         if(!command.hasPermission(channel, user)) {
             // Send no permission message
-            rpgBot.client.sendMessage(channel.getName(), user.getName() + IRCFormat.RED + ", You don't have the permission to do that");
+            rpgBot.client.sendMessage(channel.getName(), user.getNick() + IRCFormat.RED + ", You don't have the permission to do that");
             return;
         }
 
