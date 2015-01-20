@@ -1,14 +1,12 @@
 package be.bendem.bot.storage;
 
-import be.bendem.bot.storage.irc.Identity;
-import be.bendem.bot.storage.irc.Server;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,18 +16,19 @@ public class DataBase {
     private final JdbcConnectionSource connectionSource;
     private final Map<Class<?>, Dao<?, ?>> daos;
 
-    public DataBase(File folder) throws SQLException {
-        if(!folder.exists()) {
-            if(!folder.mkdirs()) {
-                throw new RuntimeException("Could not create data folder " + folder.getPath());
+    public DataBase(Path dbFile) throws SQLException {
+        if(Files.notExists(dbFile)) {
+            try {
+                Files.createDirectories(dbFile.getParent());
+            } catch(IOException e) {
+                throw new RuntimeException("Could not create data folder for " + dbFile, e);
             }
         }
-        File dbFile = new File(folder, "database.h2");
-        connectionSource = new JdbcConnectionSource("jdbc:h2:" + dbFile.getAbsolutePath());
+        connectionSource = new JdbcConnectionSource("jdbc:h2:" + dbFile);
 
         daos = new HashMap<>();
-        daos.put(Server.class, DaoManager.createDao(connectionSource, Server.class));
-        daos.put(Identity.class, DaoManager.createDao(connectionSource, Identity.class));
+        //daos.put(Server.class, DaoManager.createDao(connectionSource, Server.class));
+        //daos.put(Identity.class, DaoManager.createDao(connectionSource, Identity.class));
 
         for(Class<?> clazz : daos.keySet()) {
             TableUtils.createTableIfNotExists(connectionSource, clazz);

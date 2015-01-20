@@ -6,13 +6,16 @@ import be.bendem.bot.commands.SaveCommand;
 import be.bendem.bot.commands.StartCommand;
 import be.bendem.bot.commands.handling.Command;
 import be.bendem.bot.commands.handling.CommandHandler;
+import be.bendem.bot.config.Config;
+import be.bendem.bot.hander.CommonEventHandler;
 import be.bendem.bot.storage.DataBase;
-import org.kitteh.irc.client.library.AuthType;
 import org.kitteh.irc.client.library.Client;
 import org.kitteh.irc.client.library.ClientBuilder;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,34 +25,45 @@ import java.util.logging.Logger;
 public class RpgBot {
 
     private final CommandHandler commandHandler;
+    public final Config config;
     public final Client client;
+    public final DataBase dataBase;
 
     public RpgBot() {
-        DataBase dataBase;
+        Path dataFolder = Paths.get(".", "data");
+        config = new Config(dataFolder.resolve("bot.cfg"));
+
+        if(!config.load()) {
+            throw new RuntimeException("New config file created, fill it before restarting the application");
+        }
+
         try {
-            dataBase = new DataBase(new File("./data"));
+            dataBase = new DataBase(dataFolder.resolve("db.h2"));
         } catch (SQLException e) {
             throw new RuntimeException("Could not access setup db", e);
         }
-
         client = new ClientBuilder()
 
-            .auth(AuthType.NICKSERV, "DiceyGameMaster", "<redacted>")
-            .realName("DiceyRpg Game Mater (at your service)")
-            .nick("DiceyGameMaster")
+            .realName(config.get(Config.Key.Realname))
+            .nick(config.get(Config.Key.Nickname))
 
-            .secure(true)
-            .server(6697)
-            //.server("ipv6.irc.esper.net")
-            .server("irc.esper.net")
+            .user(config.get(Config.Key.ServerUsername))
+            .secure(Boolean.valueOf(config.get(Config.Key.ServerSsl)))
+            .server(Integer.valueOf(config.get(Config.Key.ServerPort)))
+            .server(config.get(Config.Key.ServerAddress))
+            .serverPassword(config.get(Config.Key.ServerPassword)) // ZNC
+
             .listenException(Throwable::printStackTrace)
             .listenInput(str  -> System.out.println("< " + str))
             .listenOutput(str -> System.out.println("> " + str))
 
             .build();
 
-        client.addChannel("#DiceyRpg");
+        Arrays.stream(config.get(Config.Key.Channels).split(","))
+            .map(c -> c.startsWith("#") ? c : '#' + c)
+            .forEach(client::addChannel);
 
+        new CommonEventHandler(this);
         commandHandler = new CommandHandler(this, ".");
         load();
     }

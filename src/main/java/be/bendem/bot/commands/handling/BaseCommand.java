@@ -17,7 +17,7 @@ public abstract class BaseCommand implements Command {
 
     @Override
     public boolean hasPermission(Channel channel, User user) {
-        return true; // TODO Implement this with nick registration check and stuff
+        return user.getNick().equals("bendem"); // TODO Implement this with nick registration check and stuff
     }
 
     @Override
