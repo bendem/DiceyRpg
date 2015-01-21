@@ -37,4 +37,14 @@ public class Monster extends Entity {
         return maxHealth;
     }
 
+    @Override
+    public void shield(int shield) {
+        // TODO
+    }
+
+    @Override
+    public void poison(int damage, int turns) {
+        // TODO
+    }
+
 }
