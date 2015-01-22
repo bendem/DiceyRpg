@@ -1,8 +1,8 @@
 package be.bendem.bot.dice;
 
 import be.bendem.bot.entities.Entity;
-import be.bendem.bot.items.Item;
-import be.bendem.bot.items.ItemType;
+import be.bendem.bot.inventories.items.Item;
+import be.bendem.bot.inventories.items.ItemType;
 import be.bendem.bot.utils.Sanity;
 
 import java.util.Random;

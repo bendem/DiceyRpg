@@ -1,4 +1,4 @@
-package be.bendem.bot.hander;
+package be.bendem.bot.handler;
 
 import be.bendem.bot.RpgBot;
 import org.kitteh.irc.client.library.EventHandler;
@@ -15,7 +15,7 @@ public class CommonEventHandler {
     @EventHandler
     public void handleQuit(ClientConnectionClosedEvent e) {
         if(!e.isReconnecting()) {
-            rpgBot.dataBase.close();
+            rpgBot.database.close();
         }
     }
 }

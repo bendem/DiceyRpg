@@ -2,7 +2,7 @@ package be.bendem.bot.entities;
 
 import be.bendem.bot.dice.Die;
 import be.bendem.bot.game.CampaignPart;
-import be.bendem.bot.items.Item;
+import be.bendem.bot.inventories.items.Item;
 
 import java.util.Collection;
 import java.util.Collections;
