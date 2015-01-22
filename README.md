@@ -6,10 +6,10 @@ Yeah, but this one is cooler, that's a rpg one, there are dices and bans \o/
 
 ## Compilation
 
-We use gradle, to manage dependencies, but we use latest version of ormlite which is not available on maven central,
-you'll need to clone and install https://github.com/j256/ormlite-core and https://github.com/j256/ormlite-jdbc
-into your local maven repo first.
-http://www.h2database.com/
+We use gradle, to manage our dependencies. We use the [h2 db engine](http://www.h2database.com/) and the
+[kitteh irc lib](https://github.com/KittehOrg/KittehIRCClientLib).
+
+`gradle build` should get you a fresh build in the `build/libs/` folder.
 
 ## License
 
