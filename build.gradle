@@ -23,8 +23,8 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.kitteh.irc',   name: 'client-lib',   version: '0.1.7-SNAPSHOT'
-    compile group: 'com.h2database',   name: 'h2',           version: '1.4.185'
+    compile group: 'org.kitteh.irc', name: 'client-lib', version: '0.1.7-SNAPSHOT'
+    compile group: 'com.h2database', name: 'h2',         version: '1.4.185'
 }
 
 shadowJar {

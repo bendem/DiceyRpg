@@ -26,72 +26,72 @@ drop table if exists ROOM_CONTAINS_MONSTER;
 CREATE TABLE ATTRIBUTE (
     IdAttribute int NOT NULL,
     Name varchar(50)
-  );
+);
 ALTER TABLE ATTRIBUTE ADD CONSTRAINT ATTRIBUTE_PK PRIMARY KEY ( IdAttribute );
 
 CREATE TABLE CHARACTER (
     IdCharacter int NOT NULL
-  );
+);
 ALTER TABLE CHARACTER ADD CONSTRAINT CHARACTER_PK PRIMARY KEY ( IdCharacter );
 
 CREATE TABLE CHARACTER_EQUIPS_EQUIPMENT (
     IdCharacter int NOT NULL,
     IdEquipment int NOT NULL
-  );
+);
 ALTER TABLE CHARACTER_EQUIPS_EQUIPMENT ADD CONSTRAINT CHARACTER_EQUIPS_EQUIPMENT_PK PRIMARY KEY ( IdCharacter, IdEquipment );
 
 CREATE TABLE CHARACTER_HAS_ATTRIBUTE (
     IdCharacter int NOT NULL,
     IdAttribute int NOT NULL,
     Value int
-  );
+);
 ALTER TABLE CHARACTER_HAS_ATTRIBUTE ADD CONSTRAINT CHARACTER_HAS_ATTRIBUTE_PK PRIMARY KEY ( IdCharacter, IdAttribute );
 
 CREATE TABLE CHARACTER_HAS_ITEM (
     IdCharacter int NOT NULL,
     IdItem int NOT NULL,
     Count tinyint
-  );
+);
 ALTER TABLE CHARACTER_HAS_ITEM ADD CONSTRAINT CHARACTER_HAS_ITEM_PK PRIMARY KEY ( IdCharacter, IdItem );
 
 CREATE TABLE CHAR_EQUIPS_DIE_IN_DICE_SET (
     IdCharacter int NOT NULL,
     IdDie int NOT NULL,
     IdDiceSet int NOT NULL
-  );
+);
 ALTER TABLE CHAR_EQUIPS_DIE_IN_DICE_SET ADD CONSTRAINT CHAR_EQUIPS_DIE_IN_DICE_SET_PK PRIMARY KEY ( IdCharacter, IdDie, IdDiceSet );
 
 CREATE TABLE CLIMATE (
     IdClimate int NOT NULL,
-    Description varchar(255)
-  );
+    Description clob
+);
 ALTER TABLE CLIMATE ADD CONSTRAINT CLIMATE_PK PRIMARY KEY ( IdClimate );
 
 CREATE TABLE CLIMATE_MODIFIES_ATTRIBUTE (
     IdClimate int NOT NULL,
     IdAttribute int NOT NULL,
     Modifier smallint
-  );
+);
 ALTER TABLE CLIMATE_MODIFIES_ATTRIBUTE ADD CONSTRAINT CLIMATE_MODIFIES_ATTRIBUTE_PK PRIMARY KEY ( IdClimate, IdAttribute );
 
 CREATE TABLE CRAFTING_RECIPE (
     IdCraftingRecipe int NOT NULL,
     IdItem int NOT NULL,
     Count tinyint
-  );
+);
 ALTER TABLE CRAFTING_RECIPE ADD CONSTRAINT CRAFTING_RECIPE_PK PRIMARY KEY ( IdCraftingRecipe );
 
 CREATE TABLE CRAFTING_REQUIRES_RESSOURCE (
     IdCraftingRecipe int NOT NULL,
     IdRessource int NOT NULL,
     Count smallint
-  );
+);
 ALTER TABLE CRAFTING_REQUIRES_RESSOURCE ADD CONSTRAINT CRAFTING_REQUIRES_RESSOURCE_PK PRIMARY KEY ( IdCraftingRecipe, IdRessource );
 
 CREATE TABLE DICE_SET (
     IdDiceSet int NOT NULL,
     NumberOfDice tinyint
-  );
+);
 ALTER TABLE DICE_SET ADD CONSTRAINT DICE_SET_PK PRIMARY KEY ( IdDiceSet );
 
 CREATE TABLE DIE (
@@ -100,43 +100,42 @@ CREATE TABLE DIE (
     MIN tinyint,
     MAX tinyint,
     CanFail boolean
-  );
+);
 ALTER TABLE DIE ADD CONSTRAINT DIE_PK PRIMARY KEY ( IdDie );
 
 CREATE TABLE DIE_TYPE (
     IdDieType int NOT NULL,
     Name varchar(50)
-  );
+);
 ALTER TABLE DIE_TYPE ADD CONSTRAINT DIE_TYPE_PK PRIMARY KEY ( IdDieType );
 
 CREATE TABLE EQUIPMENT (
     IdEquipment int NOT NULL,
     EquipableSlot tinyint
-  );
+);
 ALTER TABLE EQUIPMENT ADD CONSTRAINT EQUIPMENT_PK PRIMARY KEY ( IdEquipment );
 
 CREATE TABLE EQUIPMENT_MODIFIES_ATTRIBUTE (
     IdEquipment int NOT NULL,
     IdAttribute int NOT NULL,
     Modifier smallint
-  );
---  ERROR: PK name length exceeds maximum allowed length(30)
+);
 ALTER TABLE EQUIPMENT_MODIFIES_ATTRIBUTE ADD CONSTRAINT EQUIPMENT_MODIFIES_ATTRIBUTE_PK PRIMARY KEY ( IdEquipment, IdAttribute );
 
 CREATE TABLE ITEM (
     IdItem int NOT NULL,
     Name varchar(50),
-    Description varchar(256),
+    Description clob,
     Value int,
     Rank tinyint
-  );
+);
 ALTER TABLE ITEM ADD CONSTRAINT ITEM_PK PRIMARY KEY ( IdItem );
 
 CREATE TABLE MONSTER (
     IdMonster int NOT NULL,
     Boss boolean,
-    Description varchar(255)
-  );
+    Description clob
+);
 ALTER TABLE MONSTER ADD CONSTRAINT MONSTER_PK PRIMARY KEY ( IdMonster );
 
 CREATE TABLE MONSTER_CAN_DROP_ITEM (
@@ -144,7 +143,7 @@ CREATE TABLE MONSTER_CAN_DROP_ITEM (
     IdItem int NOT NULL,
     Count smallint,
     Probability tinyint
-  );
+);
 ALTER TABLE MONSTER_CAN_DROP_ITEM ADD CONSTRAINT MONSTER_CAN_DROP_ITEM_PK PRIMARY KEY ( IdMonster, IdItem );
 
 CREATE TABLE PLAYER (
@@ -154,52 +153,52 @@ CREATE TABLE PLAYER (
     Level smallint,
     Experience int,
     Money bigint
-  );
+);
 ALTER TABLE PLAYER ADD CONSTRAINT PLAYER_PK PRIMARY KEY ( IdPlayer );
 
 CREATE TABLE PLAYER_FINISH_QUEST (
     IdPlayer int NOT NULL,
     IdQuest int NOT NULL,
     DateCompletion timestamp
-  );
+);
 ALTER TABLE PLAYER_FINISH_QUEST ADD CONSTRAINT PLAYER_FINISH_QUEST_PK PRIMARY KEY ( IdPlayer, IdQuest );
 
 CREATE TABLE QUEST (
     IdQuest int NOT NULL,
     IdClimate int NOT NULL,
     Description clob
-  );
+);
 ALTER TABLE QUEST ADD CONSTRAINT QUEST_PK PRIMARY KEY ( IdQuest );
 
 CREATE TABLE QUEST_MADE_OF_ROOM (
     IdQuest int NOT NULL,
     IdRoom int NOT NULL,
     OrderNr tinyint
-  );
+);
 ALTER TABLE QUEST_MADE_OF_ROOM ADD CONSTRAINT QUEST_MADE_OF_ROOM_PK PRIMARY KEY ( IdQuest, IdRoom );
 
 CREATE TABLE QUEST_REWARDS_ITEM (
     IdQuest int NOT NULL,
     IdItem int NOT NULL,
     Count smallint
-  );
+);
 ALTER TABLE QUEST_REWARDS_ITEM ADD CONSTRAINT QUEST_REWARDS_ITEM_PK PRIMARY KEY ( IdQuest, IdItem );
 
 CREATE TABLE RESSOURCE (
     IdRessource int NOT NULL
-  );
+);
 ALTER TABLE RESSOURCE ADD CONSTRAINT RESSOURCE_PK PRIMARY KEY ( IdRessource );
 
 CREATE TABLE ROOM (
     IdRoom int NOT NULL
-  );
+);
 ALTER TABLE ROOM ADD CONSTRAINT ROOM_PK PRIMARY KEY ( IdRoom );
 
 CREATE TABLE ROOM_CONTAINS_MONSTER (
     IdRoom int NOT NULL,
     IdMonster int NOT NULL,
     Count tinyint
-  );
+);
 ALTER TABLE ROOM_CONTAINS_MONSTER ADD CONSTRAINT ROOM_CONTAINS_MONSTER_PK PRIMARY KEY ( IdRoom, IdMonster );
 
 -- Foreign keys
