@@ -77,6 +77,7 @@ create table crafting_recipe (
     IdCraftingRecipe int not null auto_increment,
     IdItem int not null,
     Count tinyint default 1 not null,
+    LevelRequired smallint,
     constraint crafting_recipe_pk primary key ( IdCraftingRecipe )
 );
 
