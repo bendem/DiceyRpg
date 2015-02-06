@@ -25,126 +25,126 @@ drop table if exists room_contains_monster;
 
 create table attribute (
     IdAttribute int not null auto_increment,
-    Name varchar(50) not null
+    Name varchar(50) not null,
+    constraint attribute_pk primary key ( IdAttribute )
 );
-alter table attribute add constraint attribute_pk primary key ( IdAttribute );
 
 create table character (
-    IdCharacter int not null auto_increment
+    IdCharacter int not null auto_increment,
+    constraint character_pk primary key ( IdCharacter )
 );
-alter table character add constraint character_pk primary key ( IdCharacter );
 
 create table character_equips_equipment (
     IdCharacter int not null,
-    IdEquipment int not null
+    IdEquipment int not null,
+    constraint character_equips_equipment_pk primary key ( IdCharacter, IdEquipment )
 );
-alter table character_equips_equipment add constraint character_equips_equipment_pk primary key ( IdCharacter, IdEquipment );
 
 create table character_has_attribute (
     IdCharacter int not null,
     IdAttribute int not null,
-    Value int not null
+    Value int not null,
+    constraint character_has_attribute_pk primary key ( IdCharacter, IdAttribute )
 );
-alter table character_has_attribute add constraint character_has_attribute_pk primary key ( IdCharacter, IdAttribute );
 
 create table character_has_item (
     IdCharacter int not null,
     IdItem int not null,
-    Count tinyint not null
+    Count tinyint not null,
+    constraint character_has_item_pk primary key ( IdCharacter, IdItem )
 );
-alter table character_has_item add constraint character_has_item_pk primary key ( IdCharacter, IdItem );
 
 create table char_equips_die_in_dice_set (
     IdCharacter int not null,
     IdDie int not null,
-    IdDiceSet int not null
+    IdDiceSet int not null,
+    constraint char_equips_die_in_dice_set_pk primary key ( IdCharacter, IdDie, IdDiceSet )
 );
-alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_pk primary key ( IdCharacter, IdDie, IdDiceSet );
 
 create table climate (
     IdClimate int not null auto_increment,
-    Description clob
+    Description clob,
+    constraint climate_pk primary key ( IdClimate )
 );
-alter table climate add constraint climate_pk primary key ( IdClimate );
 
 create table climate_modifies_attribute (
     IdClimate int not null,
     IdAttribute int not null,
-    Modifier smallint not null -- enum
+    Modifier smallint not null, -- enum
+    constraint climate_modifies_attribute_pk primary key ( IdClimate, IdAttribute )
 );
-alter table climate_modifies_attribute add constraint climate_modifies_attribute_pk primary key ( IdClimate, IdAttribute );
 
 create table crafting_recipe (
     IdCraftingRecipe int not null auto_increment,
     IdItem int not null,
-    Count tinyint default 1 not null
+    Count tinyint default 1 not null,
+    constraint crafting_recipe_pk primary key ( IdCraftingRecipe )
 );
-alter table crafting_recipe add constraint crafting_recipe_pk primary key ( IdCraftingRecipe );
 
 create table crafting_requires_ressource (
     IdCraftingRecipe int not null,
     IdRessource int not null,
-    Count smallint not null
+    Count smallint not null,
+    constraint crafting_requires_ressource_pk primary key ( IdCraftingRecipe, IdRessource )
 );
-alter table crafting_requires_ressource add constraint crafting_requires_ressource_pk primary key ( IdCraftingRecipe, IdRessource );
 
 create table dice_set (
     IdDiceSet int not null auto_increment,
-    NumberOfDice tinyint not null
+    NumberOfDice tinyint not null,
+    constraint dice_set_pk primary key ( IdDiceSet )
 );
-alter table dice_set add constraint dice_set_pk primary key ( IdDiceSet );
 
 create table die (
     IdDie int not null auto_increment,
     IdDieType int not null,
     MIN tinyint not null,
     MAX tinyint not null,
-    CanFail boolean default true not null
+    CanFail boolean default true not null,
+    constraint die_pk primary key ( IdDie )
 );
-alter table die add constraint die_pk primary key ( IdDie );
 
 create table die_type (
     IdDieType int not null,
-    Name varchar(50) not null
+    Name varchar(50) not null,
+    constraint die_type_pk primary key ( IdDieType )
 );
-alter table die_type add constraint die_type_pk primary key ( IdDieType );
 
 create table equipment (
     IdEquipment int not null auto_increment,
-    EquipableSlot tinyint -- enum, null = not equipable
+    EquipableSlot tinyint, -- enum, null = not equipable
+    constraint equipment_pk primary key ( IdEquipment )
 );
-alter table equipment add constraint equipment_pk primary key ( IdEquipment );
 
 create table equipment_modifies_attribute (
     IdEquipment int not null,
     IdAttribute int not null,
-    Modifier smallint not null -- enum
+    Modifier smallint not null, -- enum
+    constraint equipment_modifies_attribute_pk primary key ( IdEquipment, IdAttribute )
 );
-alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_pk primary key ( IdEquipment, IdAttribute );
 
 create table item (
     IdItem int not null auto_increment,
     Name varchar(50),
     Description clob,
     Value int not null,
-    Rank tinyint not null -- enum, def?
+    Rank tinyint not null, -- enum, def?
+    constraint item_pk primary key ( IdItem )
 );
-alter table item add constraint item_pk primary key ( IdItem );
 
 create table monster (
     IdMonster int not null auto_increment,
     Boss boolean default false not null,
-    Description clob
+    Description clob,
+    constraint monster_pk primary key ( IdMonster )
 );
-alter table monster add constraint monster_pk primary key ( IdMonster );
 
 create table monster_can_drop_item (
     IdMonster int not null,
     IdItem int not null,
     Count smallint not null,
-    Probability tinyint not null -- percent represented from 0 to 100
+    Probability tinyint not null, -- percent represented from 0 to 100
+    constraint monster_can_drop_item_pk primary key ( IdMonster, IdItem )
 );
-alter table monster_can_drop_item add constraint monster_can_drop_item_pk primary key ( IdMonster, IdItem );
 
 create table player (
     IdPlayer int not null auto_increment,
@@ -152,54 +152,54 @@ create table player (
     Password varchar(255) not null,
     Level smallint default 1 not null,
     Experience int default 0 not null,
-    Money bigint default 0 not null
+    Money bigint default 0 not null,
+    constraint player_pk primary key ( IdPlayer )
 );
-alter table player add constraint player_pk primary key ( IdPlayer );
 
 create table player_finish_quest (
     IdPlayer int not null,
     IdQuest int not null,
-    DateCompletion timestamp default current_timestamp not null
+    DateCompletion timestamp default current_timestamp not null,
+    constraint player_finish_quest_pk primary key ( IdPlayer, IdQuest )
 );
-alter table player_finish_quest add constraint player_finish_quest_pk primary key ( IdPlayer, IdQuest );
 
 create table quest (
     IdQuest int not null auto_increment,
     IdClimate int not null,
-    Description clob
+    Description clob,
+    constraint quest_pk primary key ( IdQuest )
 );
-alter table quest add constraint quest_pk primary key ( IdQuest );
 
 create table quest_made_of_room (
     IdQuest int not null,
     IdRoom int not null,
-    OrderNr tinyint not null
+    OrderNr tinyint not null,
+    constraint quest_made_of_room_pk primary key ( IdQuest, IdRoom )
 );
-alter table quest_made_of_room add constraint quest_made_of_room_pk primary key ( IdQuest, IdRoom );
 
 create table quest_rewards_item (
     IdQuest int not null,
     IdItem int not null,
-    Count smallint not null
+    Count smallint not null,
+    constraint quest_rewards_item_pk primary key ( IdQuest, IdItem )
 );
-alter table quest_rewards_item add constraint quest_rewards_item_pk primary key ( IdQuest, IdItem );
 
 create table ressource (
-    IdRessource int not null auto_increment
+    IdRessource int not null auto_increment,
+    constraint ressource_pk primary key ( IdRessource )
 );
-alter table ressource add constraint ressource_pk primary key ( IdRessource );
 
 create table room (
-    IdRoom int not null auto_increment
+    IdRoom int not null auto_increment,
+    constraint room_pk primary key ( IdRoom )
 );
-alter table room add constraint room_pk primary key ( IdRoom );
 
 create table room_contains_monster (
     IdRoom int not null,
     IdMonster int not null,
-    Count tinyint not null
+    Count tinyint not null,
+    constraint room_contains_monster_pk primary key ( IdRoom, IdMonster )
 );
-alter table room_contains_monster add constraint room_contains_monster_pk primary key ( IdRoom, IdMonster );
 
 -- Foreign keys
 alter table character_equips_equipment add constraint character_equips_equipment_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
