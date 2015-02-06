@@ -1,4 +1,3 @@
-drop table if exists attribute;
 drop table if exists character;
 drop table if exists player_equips_equipment;
 drop table if exists character_has_attribute;
@@ -25,12 +24,6 @@ drop table if exists resource;
 drop table if exists room;
 drop table if exists room_contains_monster;
 
-create table attribute (
-    IdAttribute int not null auto_increment,
-    Name varchar(50) not null,
-    constraint attribute_pk primary key ( IdAttribute )
-);
-
 create table character (
     IdCharacter int not null auto_increment,
     constraint character_pk primary key ( IdCharacter )
@@ -44,9 +37,9 @@ create table player_equips_equipment (
 
 create table character_has_attribute (
     IdCharacter int not null,
-    IdAttribute int not null,
+    Attribute tinyint not null, -- enum
     Value int not null,
-    constraint character_has_attribute_pk primary key ( IdCharacter, IdAttribute )
+    constraint character_has_attribute_pk primary key ( IdCharacter, Attribute )
 );
 
 create table player_has_item (
@@ -71,9 +64,9 @@ create table climate (
 
 create table climate_modifies_attribute (
     IdClimate int not null,
-    IdAttribute int not null,
+    Attribute tinyint not null, -- enum
     Modifier smallint not null, -- enum
-    constraint climate_modifies_attribute_pk primary key ( IdClimate, IdAttribute )
+    constraint climate_modifies_attribute_pk primary key ( IdClimate, Attribute )
 );
 
 create table crafting_recipe (
@@ -114,9 +107,9 @@ create table equipment (
 
 create table equipment_modifies_attribute (
     IdEquipment int not null,
-    IdAttribute int not null,
+    Attribute tinyint not null, -- enum
     Modifier smallint not null, -- enum
-    constraint equipment_modifies_attribute_pk primary key ( IdEquipment, IdAttribute )
+    constraint equipment_modifies_attribute_pk primary key ( IdEquipment, Attribute )
 );
 
 create table item (
@@ -130,6 +123,7 @@ create table item (
 
 create table monster (
     IdMonster int not null auto_increment,
+    Name varchar(50) not null,
     Boss boolean default false not null,
     Description clob,
     constraint monster_pk primary key ( IdMonster )
@@ -207,14 +201,12 @@ create table room_contains_monster (
 -- Foreign keys
 alter table player_equips_equipment add constraint player_equips_equipment_player_fk foreign key ( IdPlayer ) references player ( IdPlayer );
 alter table player_equips_equipment add constraint player_equips_equipment_equipment_fk foreign key ( IdEquipment ) references equipment ( IdEquipment );
-alter table character_has_attribute add constraint character_has_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
 alter table character_has_attribute add constraint character_has_attribute_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
 alter table player_has_item add constraint player_has_item_character_fk foreign key ( IdPlayer ) references player ( IdPlayer );
 alter table player_has_item add constraint player_has_item_item_fk foreign key ( IdItem ) references item ( IdItem );
 alter table player_equips_die_in_dice_set add constraint player_equips_die_in_dice_set_character_fk foreign key ( IdPlayer ) references player ( IdPlayer );
 alter table player_equips_die_in_dice_set add constraint player_equips_die_in_dice_set_dice_set_fk foreign key ( IdDiceSet ) references dice_set ( IdDiceSet );
 alter table player_equips_die_in_dice_set add constraint player_equips_die_in_dice_set_die_fk foreign key ( IdDie ) references die ( IdDie );
-alter table climate_modifies_attribute add constraint climate_modifies_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
 alter table climate_modifies_attribute add constraint climate_modifies_attribute_climate_fk foreign key ( IdClimate ) references climate ( IdClimate );
 alter table crafting_recipe add constraint crafting_recipe_item_fk foreign key ( IdItem ) references item ( IdItem );
 alter table crafting_requires_resource add constraint crafting_requires_resource_crafting_recipe_fk foreign key ( IdCraftingRecipe ) references crafting_recipe ( IdCraftingRecipe );
@@ -222,7 +214,6 @@ alter table crafting_requires_resource add constraint crafting_requires_resource
 alter table dice_set add constraint dice_set_item_fk foreign key ( IdDiceSet ) references item ( IdItem );
 alter table die add constraint die_item_fk foreign key ( IdDie ) references item ( IdItem );
 alter table equipment add constraint equipment_item_fk foreign key ( IdEquipment ) references item ( IdItem );
-alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
 alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_equipment_fk foreign key ( IdEquipment ) references equipment ( IdEquipment );
 alter table monster_can_drop_item add constraint monster_can_drop_item_item_fk foreign key ( IdItem ) references item ( IdItem );
 alter table monster_can_drop_item add constraint monster_can_drop_item_monster_fk foreign key ( IdMonster ) references monster ( IdMonster );

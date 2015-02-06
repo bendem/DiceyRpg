@@ -1,6 +1,6 @@
 package be.bendem.bot.game;
 
-import be.bendem.bot.entities.Entity;
+import be.bendem.bot.entities.Character;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import java.util.List;
  */
 public class CampaignPart {
 
-    private final List<Entity> allies;
-    private final List<Entity> enemies;
+    private final List<Character> allies;
+    private final List<Character> enemies;
 
-    public CampaignPart(List<Entity> allies, List<Entity> enemies) {
+    public CampaignPart(List<Character> allies, List<Character> enemies) {
         this.allies = allies;
         this.enemies = enemies;
     }

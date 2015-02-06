@@ -1,40 +1,18 @@
 package be.bendem.bot.entities;
 
 import be.bendem.bot.inventories.items.Die;
-import be.bendem.bot.game.CampaignPart;
 import be.bendem.bot.inventories.items.Item;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
-/**
- * @author bendem
- */
-public class Monster extends Entity {
+public class Monster extends Character implements Cloneable {
 
-    private final int maxHealth;
+    private List<Die> dice;
+    private Map<Item, Byte> drops;
 
-    protected Monster(List<Die> dice, String name, int health) {
-        super(dice, name, health);
-        maxHealth = health;
-    }
-
-    @Override
-    public boolean takeTurn(CampaignPart campaignPart, Random random) {
-        // TODO
-        return false;
-    }
-
-    public Collection<Item> loot(Random random) {
-        // TODO
-        return Collections.emptySet();
-    }
-
-    @Override
-    public int getMaxHealth() {
-        return maxHealth;
+    protected Monster(int id, String name, int maxHealth) {
+        super(id, name, maxHealth);
     }
 
 }
