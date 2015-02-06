@@ -18,23 +18,23 @@ public class GameRegistry {
 
     public Item getItem(String name) {
         Optional<Item> item = items.stream()
-            .filter(i -> i.getName().equals(name))
+            .filter(i -> i.name.equals(name))
             .findAny();
 
         if(!item.isPresent()) {
-            item = database.getModel(Item.class).getFirst(i -> i.getName().equals(name));
+            item = database.getModel(Item.class).getFirst(i -> i.name.equals(name));
         }
 
         return item.get();
     }
 
-    public Item getItem(long id) {
+    public Item getItem(int id) {
         Optional<Item> item = items.stream()
-            .filter(i -> i.getId() == id)
+            .filter(i -> i.id == id)
             .findAny();
 
         if(!item.isPresent()) {
-            item = database.getModel(Item.class).getFirst(i -> i.getId() == id);
+            item = database.getModel(Item.class).getFirst(i -> i.id == id);
         }
 
         return item.get();

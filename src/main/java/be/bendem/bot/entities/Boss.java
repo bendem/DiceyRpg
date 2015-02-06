@@ -1,6 +1,6 @@
 package be.bendem.bot.entities;
 
-import be.bendem.bot.dice.Die;
+import be.bendem.bot.inventories.items.Die;
 
 import java.util.List;
 

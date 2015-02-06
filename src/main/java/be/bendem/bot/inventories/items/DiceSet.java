@@ -9,7 +9,7 @@ public class DiceSet extends Item implements Iterable<Die> {
     private final List<Die> content;
 
     public DiceSet(int id, String name, String description, int value, Rank rank, int setSize, List<Die> content) {
-        super(id, name, description, value, rank, ItemType.DiceSet);
+        super(id, name, description, value, rank, Type.DiceSet);
         this.setSize = setSize;
         this.content = content;
     }
