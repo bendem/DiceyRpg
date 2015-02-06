@@ -1,17 +1,20 @@
 drop table if exists attribute;
 drop table if exists character;
-drop table if exists character_equips_equipment;
+drop table if exists player_equips_equipment;
 drop table if exists character_has_attribute;
-drop table if exists character_has_item;
-drop table if exists char_equips_die_in_dice_set;
+drop table if exists player_has_item;
+drop table if exists player_equips_die_in_dice_set;
 drop table if exists climate;
 drop table if exists climate_modifies_attribute;
 drop table if exists crafting_recipe;
 drop table if exists crafting_requires_resource;
 drop table if exists dice_set;
 drop table if exists die;
+drop table if exists equipment;
 drop table if exists equipment_modifies_attribute;
+drop table if exists item;
 drop table if exists monster;
+drop table if exists monster_has_die;
 drop table if exists monster_can_drop_item;
 drop table if exists player;
 drop table if exists player_finish_quest;
@@ -33,10 +36,10 @@ create table character (
     constraint character_pk primary key ( IdCharacter )
 );
 
-create table character_equips_equipment (
-    IdCharacter int not null,
+create table player_equips_equipment (
+    IdPlayer int not null,
     IdEquipment int not null,
-    constraint character_equips_equipment_pk primary key ( IdCharacter, IdEquipment )
+    constraint character_equips_equipment_pk primary key ( IdPlayer, IdEquipment )
 );
 
 create table character_has_attribute (
@@ -46,18 +49,18 @@ create table character_has_attribute (
     constraint character_has_attribute_pk primary key ( IdCharacter, IdAttribute )
 );
 
-create table character_has_item (
-    IdCharacter int not null,
+create table player_has_item (
+    IdPlayer int not null,
     IdItem int not null,
     Count tinyint not null,
-    constraint character_has_item_pk primary key ( IdCharacter, IdItem )
+    constraint player_has_item_pk primary key ( IdPlayer, IdItem )
 );
 
-create table char_equips_die_in_dice_set (
-    IdCharacter int not null,
+create table player_equips_die_in_dice_set (
+    IdPlayer int not null,
     IdDie int not null,
     IdDiceSet int not null,
-    constraint char_equips_die_in_dice_set_pk primary key ( IdCharacter, IdDie, IdDiceSet )
+    constraint player_equips_die_in_dice_set_pk primary key ( IdPlayer, IdDie, IdDiceSet )
 );
 
 create table climate (
@@ -132,6 +135,12 @@ create table monster (
     constraint monster_pk primary key ( IdMonster )
 );
 
+create table monster_has_die (
+    IdMonster int not null,
+    IdDie int not null,
+    constraint monster_has_die_pk primary key ( IdMonster, IdDie )
+);
+
 create table monster_can_drop_item (
     IdMonster int not null,
     IdItem int not null,
@@ -196,15 +205,15 @@ create table room_contains_monster (
 );
 
 -- Foreign keys
-alter table character_equips_equipment add constraint character_equips_equipment_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
-alter table character_equips_equipment add constraint character_equips_equipment_equipment_fk foreign key ( IdEquipment ) references equipment ( IdEquipment );
+alter table player_equips_equipment add constraint player_equips_equipment_player_fk foreign key ( IdPlayer ) references player ( IdPlayer );
+alter table player_equips_equipment add constraint player_equips_equipment_equipment_fk foreign key ( IdEquipment ) references equipment ( IdEquipment );
 alter table character_has_attribute add constraint character_has_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
 alter table character_has_attribute add constraint character_has_attribute_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
-alter table character_has_item add constraint character_has_item_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
-alter table character_has_item add constraint character_has_item_item_fk foreign key ( IdItem ) references item ( IdItem );
-alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
-alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_dice_set_fk foreign key ( IdDiceSet ) references dice_set ( IdDiceSet );
-alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_die_fk foreign key ( IdDie ) references die ( IdDie );
+alter table player_has_item add constraint player_has_item_character_fk foreign key ( IdPlayer ) references player ( IdPlayer );
+alter table player_has_item add constraint player_has_item_item_fk foreign key ( IdItem ) references item ( IdItem );
+alter table player_equips_die_in_dice_set add constraint player_equips_die_in_dice_set_character_fk foreign key ( IdPlayer ) references player ( IdPlayer );
+alter table player_equips_die_in_dice_set add constraint player_equips_die_in_dice_set_dice_set_fk foreign key ( IdDiceSet ) references dice_set ( IdDiceSet );
+alter table player_equips_die_in_dice_set add constraint player_equips_die_in_dice_set_die_fk foreign key ( IdDie ) references die ( IdDie );
 alter table climate_modifies_attribute add constraint climate_modifies_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
 alter table climate_modifies_attribute add constraint climate_modifies_attribute_climate_fk foreign key ( IdClimate ) references climate ( IdClimate );
 alter table crafting_recipe add constraint crafting_recipe_item_fk foreign key ( IdItem ) references item ( IdItem );
@@ -229,3 +238,5 @@ alter table resource add constraint resource_item_fk foreign key ( IdResource ) 
 alter table room_contains_monster add constraint room_contains_monster_monster_fk foreign key ( IdMonster ) references monster ( IdMonster );
 alter table room_contains_monster add constraint room_contains_monster_room_fk foreign key ( IdRoom ) references room ( IdRoom );
 alter table monster add constraint monster_character_fk foreign key ( IdMonster ) references character ( IdCharacter );
+alter table monster_has_die add constraint monster_has_die_monster_fk foreign key ( IdMonster ) references monster ( IdMonster );
+alter table monster_has_die add constraint monster_has_die_die_fk foreign key ( IdDie ) references die ( IdDie );
