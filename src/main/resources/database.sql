@@ -1,238 +1,238 @@
-drop table if exists ATTRIBUTE;
-drop table if exists CHARACTER;
-drop table if exists CHARACTER_EQUIPS_EQUIPMENT;
-drop table if exists CHARACTER_HAS_ATTRIBUTE;
-drop table if exists CHARACTER_HAS_ITEM;
-drop table if exists CHAR_EQUIPS_DIE_IN_DICE_SET;
-drop table if exists CLIMATE;
-drop table if exists CLIMATE_MODIFIES_ATTRIBUTE;
-drop table if exists CRAFTING_RECIPE;
-drop table if exists CRAFTING_REQUIRES_RESSOURCE;
-drop table if exists DICE_SET;
-drop table if exists DIE;
-drop table if exists DIE_TYPE;
-drop table if exists EQUIPMENT_MODIFIES_ATTRIBUTE;
-drop table if exists MONSTER;
-drop table if exists MONSTER_CAN_DROP_ITEM;
-drop table if exists PLAYER;
-drop table if exists PLAYER_FINISH_QUEST;
-drop table if exists QUEST;
-drop table if exists QUEST_MADE_OF_ROOM;
-drop table if exists QUEST_REWARDS_ITEM;
-drop table if exists RESSOURCE;
-drop table if exists ROOM;
-drop table if exists ROOM_CONTAINS_MONSTER;
+drop table if exists attribute;
+drop table if exists character;
+drop table if exists character_equips_equipment;
+drop table if exists character_has_attribute;
+drop table if exists character_has_item;
+drop table if exists char_equips_die_in_dice_set;
+drop table if exists climate;
+drop table if exists climate_modifies_attribute;
+drop table if exists crafting_recipe;
+drop table if exists crafting_requires_ressource;
+drop table if exists dice_set;
+drop table if exists die;
+drop table if exists die_type;
+drop table if exists equipment_modifies_attribute;
+drop table if exists monster;
+drop table if exists monster_can_drop_item;
+drop table if exists player;
+drop table if exists player_finish_quest;
+drop table if exists quest;
+drop table if exists quest_made_of_room;
+drop table if exists quest_rewards_item;
+drop table if exists ressource;
+drop table if exists room;
+drop table if exists room_contains_monster;
 
-CREATE TABLE ATTRIBUTE (
-    IdAttribute int NOT NULL AUTO_INCREMENT,
-    Name varchar(50) NOT NULL
+create table attribute (
+    IdAttribute int not null auto_increment,
+    Name varchar(50) not null
 );
-ALTER TABLE ATTRIBUTE ADD CONSTRAINT ATTRIBUTE_PK PRIMARY KEY ( IdAttribute );
+alter table attribute add constraint attribute_pk primary key ( IdAttribute );
 
-CREATE TABLE CHARACTER (
-    IdCharacter int NOT NULL AUTO_INCREMENT
+create table character (
+    IdCharacter int not null auto_increment
 );
-ALTER TABLE CHARACTER ADD CONSTRAINT CHARACTER_PK PRIMARY KEY ( IdCharacter );
+alter table character add constraint character_pk primary key ( IdCharacter );
 
-CREATE TABLE CHARACTER_EQUIPS_EQUIPMENT (
-    IdCharacter int NOT NULL,
-    IdEquipment int NOT NULL
+create table character_equips_equipment (
+    IdCharacter int not null,
+    IdEquipment int not null
 );
-ALTER TABLE CHARACTER_EQUIPS_EQUIPMENT ADD CONSTRAINT CHARACTER_EQUIPS_EQUIPMENT_PK PRIMARY KEY ( IdCharacter, IdEquipment );
+alter table character_equips_equipment add constraint character_equips_equipment_pk primary key ( IdCharacter, IdEquipment );
 
-CREATE TABLE CHARACTER_HAS_ATTRIBUTE (
-    IdCharacter int NOT NULL,
-    IdAttribute int NOT NULL,
-    Value int NOT NULL
+create table character_has_attribute (
+    IdCharacter int not null,
+    IdAttribute int not null,
+    Value int not null
 );
-ALTER TABLE CHARACTER_HAS_ATTRIBUTE ADD CONSTRAINT CHARACTER_HAS_ATTRIBUTE_PK PRIMARY KEY ( IdCharacter, IdAttribute );
+alter table character_has_attribute add constraint character_has_attribute_pk primary key ( IdCharacter, IdAttribute );
 
-CREATE TABLE CHARACTER_HAS_ITEM (
-    IdCharacter int NOT NULL,
-    IdItem int NOT NULL,
-    Count tinyint NOT NULL
+create table character_has_item (
+    IdCharacter int not null,
+    IdItem int not null,
+    Count tinyint not null
 );
-ALTER TABLE CHARACTER_HAS_ITEM ADD CONSTRAINT CHARACTER_HAS_ITEM_PK PRIMARY KEY ( IdCharacter, IdItem );
+alter table character_has_item add constraint character_has_item_pk primary key ( IdCharacter, IdItem );
 
-CREATE TABLE CHAR_EQUIPS_DIE_IN_DICE_SET (
-    IdCharacter int NOT NULL,
-    IdDie int NOT NULL,
-    IdDiceSet int NOT NULL
+create table char_equips_die_in_dice_set (
+    IdCharacter int not null,
+    IdDie int not null,
+    IdDiceSet int not null
 );
-ALTER TABLE CHAR_EQUIPS_DIE_IN_DICE_SET ADD CONSTRAINT CHAR_EQUIPS_DIE_IN_DICE_SET_PK PRIMARY KEY ( IdCharacter, IdDie, IdDiceSet );
+alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_pk primary key ( IdCharacter, IdDie, IdDiceSet );
 
-CREATE TABLE CLIMATE (
-    IdClimate int NOT NULL AUTO_INCREMENT,
+create table climate (
+    IdClimate int not null auto_increment,
     Description clob
 );
-ALTER TABLE CLIMATE ADD CONSTRAINT CLIMATE_PK PRIMARY KEY ( IdClimate );
+alter table climate add constraint climate_pk primary key ( IdClimate );
 
-CREATE TABLE CLIMATE_MODIFIES_ATTRIBUTE (
-    IdClimate int NOT NULL,
-    IdAttribute int NOT NULL,
-    Modifier smallint NOT NULL -- enum
+create table climate_modifies_attribute (
+    IdClimate int not null,
+    IdAttribute int not null,
+    Modifier smallint not null -- enum
 );
-ALTER TABLE CLIMATE_MODIFIES_ATTRIBUTE ADD CONSTRAINT CLIMATE_MODIFIES_ATTRIBUTE_PK PRIMARY KEY ( IdClimate, IdAttribute );
+alter table climate_modifies_attribute add constraint climate_modifies_attribute_pk primary key ( IdClimate, IdAttribute );
 
-CREATE TABLE CRAFTING_RECIPE (
-    IdCraftingRecipe int NOT NULL AUTO_INCREMENT,
-    IdItem int NOT NULL,
-    Count tinyint DEFAULT 1 NOT NULL
+create table crafting_recipe (
+    IdCraftingRecipe int not null auto_increment,
+    IdItem int not null,
+    Count tinyint default 1 not null
 );
-ALTER TABLE CRAFTING_RECIPE ADD CONSTRAINT CRAFTING_RECIPE_PK PRIMARY KEY ( IdCraftingRecipe );
+alter table crafting_recipe add constraint crafting_recipe_pk primary key ( IdCraftingRecipe );
 
-CREATE TABLE CRAFTING_REQUIRES_RESSOURCE (
-    IdCraftingRecipe int NOT NULL,
-    IdRessource int NOT NULL,
-    Count smallint NOT NULL
+create table crafting_requires_ressource (
+    IdCraftingRecipe int not null,
+    IdRessource int not null,
+    Count smallint not null
 );
-ALTER TABLE CRAFTING_REQUIRES_RESSOURCE ADD CONSTRAINT CRAFTING_REQUIRES_RESSOURCE_PK PRIMARY KEY ( IdCraftingRecipe, IdRessource );
+alter table crafting_requires_ressource add constraint crafting_requires_ressource_pk primary key ( IdCraftingRecipe, IdRessource );
 
-CREATE TABLE DICE_SET (
-    IdDiceSet int NOT NULL AUTO_INCREMENT,
-    NumberOfDice tinyint NOT NULL
+create table dice_set (
+    IdDiceSet int not null auto_increment,
+    NumberOfDice tinyint not null
 );
-ALTER TABLE DICE_SET ADD CONSTRAINT DICE_SET_PK PRIMARY KEY ( IdDiceSet );
+alter table dice_set add constraint dice_set_pk primary key ( IdDiceSet );
 
-CREATE TABLE DIE (
-    IdDie int NOT NULL AUTO_INCREMENT,
-    IdDieType int NOT NULL,
-    MIN tinyint NOT NULL,
-    MAX tinyint NOT NULL,
-    CanFail boolean DEFAULT true NOT NULL
+create table die (
+    IdDie int not null auto_increment,
+    IdDieType int not null,
+    MIN tinyint not null,
+    MAX tinyint not null,
+    CanFail boolean default true not null
 );
-ALTER TABLE DIE ADD CONSTRAINT DIE_PK PRIMARY KEY ( IdDie );
+alter table die add constraint die_pk primary key ( IdDie );
 
-CREATE TABLE DIE_TYPE (
-    IdDieType int NOT NULL,
-    Name varchar(50) NOT NULL
+create table die_type (
+    IdDieType int not null,
+    Name varchar(50) not null
 );
-ALTER TABLE DIE_TYPE ADD CONSTRAINT DIE_TYPE_PK PRIMARY KEY ( IdDieType );
+alter table die_type add constraint die_type_pk primary key ( IdDieType );
 
-CREATE TABLE EQUIPMENT (
-    IdEquipment int NOT NULL AUTO_INCREMENT,
+create table equipment (
+    IdEquipment int not null auto_increment,
     EquipableSlot tinyint -- enum, null = not equipable
 );
-ALTER TABLE EQUIPMENT ADD CONSTRAINT EQUIPMENT_PK PRIMARY KEY ( IdEquipment );
+alter table equipment add constraint equipment_pk primary key ( IdEquipment );
 
-CREATE TABLE EQUIPMENT_MODIFIES_ATTRIBUTE (
-    IdEquipment int NOT NULL,
-    IdAttribute int NOT NULL,
-    Modifier smallint NOT NULL -- enum
+create table equipment_modifies_attribute (
+    IdEquipment int not null,
+    IdAttribute int not null,
+    Modifier smallint not null -- enum
 );
-ALTER TABLE EQUIPMENT_MODIFIES_ATTRIBUTE ADD CONSTRAINT EQUIPMENT_MODIFIES_ATTRIBUTE_PK PRIMARY KEY ( IdEquipment, IdAttribute );
+alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_pk primary key ( IdEquipment, IdAttribute );
 
-CREATE TABLE ITEM (
-    IdItem int NOT NULL AUTO_INCREMENT,
+create table item (
+    IdItem int not null auto_increment,
     Name varchar(50),
     Description clob,
-    Value int NOT NULL,
-    Rank tinyint NOT NULL -- enum, def?
+    Value int not null,
+    Rank tinyint not null -- enum, def?
 );
-ALTER TABLE ITEM ADD CONSTRAINT ITEM_PK PRIMARY KEY ( IdItem );
+alter table item add constraint item_pk primary key ( IdItem );
 
-CREATE TABLE MONSTER (
-    IdMonster int NOT NULL AUTO_INCREMENT,
-    Boss boolean DEFAULT false NOT NULL,
+create table monster (
+    IdMonster int not null auto_increment,
+    Boss boolean default false not null,
     Description clob
 );
-ALTER TABLE MONSTER ADD CONSTRAINT MONSTER_PK PRIMARY KEY ( IdMonster );
+alter table monster add constraint monster_pk primary key ( IdMonster );
 
-CREATE TABLE MONSTER_CAN_DROP_ITEM (
-    IdMonster int NOT NULL,
-    IdItem int NOT NULL,
-    Count smallint NOT NULL,
-    Probability tinyint NOT NULL -- percent represented from 0 to 100
+create table monster_can_drop_item (
+    IdMonster int not null,
+    IdItem int not null,
+    Count smallint not null,
+    Probability tinyint not null -- percent represented from 0 to 100
 );
-ALTER TABLE MONSTER_CAN_DROP_ITEM ADD CONSTRAINT MONSTER_CAN_DROP_ITEM_PK PRIMARY KEY ( IdMonster, IdItem );
+alter table monster_can_drop_item add constraint monster_can_drop_item_pk primary key ( IdMonster, IdItem );
 
-CREATE TABLE PLAYER (
-    IdPlayer int NOT NULL AUTO_INCREMENT,
-    Username varchar(50) NOT NULL, -- unique
-    Password varchar(255) NOT NULL,
-    Level smallint DEFAULT 1 NOT NULL,
-    Experience int DEFAULT 0 NOT NULL,
-    Money bigint DEFAULT 0 NOT NULL
+create table player (
+    IdPlayer int not null auto_increment,
+    Username varchar(50) not null, -- unique
+    Password varchar(255) not null,
+    Level smallint default 1 not null,
+    Experience int default 0 not null,
+    Money bigint default 0 not null
 );
-ALTER TABLE PLAYER ADD CONSTRAINT PLAYER_PK PRIMARY KEY ( IdPlayer );
+alter table player add constraint player_pk primary key ( IdPlayer );
 
-CREATE TABLE PLAYER_FINISH_QUEST (
-    IdPlayer int NOT NULL,
-    IdQuest int NOT NULL,
-    DateCompletion timestamp DEFAULT current_timestamp NOT NULL
+create table player_finish_quest (
+    IdPlayer int not null,
+    IdQuest int not null,
+    DateCompletion timestamp default current_timestamp not null
 );
-ALTER TABLE PLAYER_FINISH_QUEST ADD CONSTRAINT PLAYER_FINISH_QUEST_PK PRIMARY KEY ( IdPlayer, IdQuest );
+alter table player_finish_quest add constraint player_finish_quest_pk primary key ( IdPlayer, IdQuest );
 
-CREATE TABLE QUEST (
-    IdQuest int NOT NULL AUTO_INCREMENT,
-    IdClimate int NOT NULL,
+create table quest (
+    IdQuest int not null auto_increment,
+    IdClimate int not null,
     Description clob
 );
-ALTER TABLE QUEST ADD CONSTRAINT QUEST_PK PRIMARY KEY ( IdQuest );
+alter table quest add constraint quest_pk primary key ( IdQuest );
 
-CREATE TABLE QUEST_MADE_OF_ROOM (
-    IdQuest int NOT NULL,
-    IdRoom int NOT NULL,
-    OrderNr tinyint NOT NULL
+create table quest_made_of_room (
+    IdQuest int not null,
+    IdRoom int not null,
+    OrderNr tinyint not null
 );
-ALTER TABLE QUEST_MADE_OF_ROOM ADD CONSTRAINT QUEST_MADE_OF_ROOM_PK PRIMARY KEY ( IdQuest, IdRoom );
+alter table quest_made_of_room add constraint quest_made_of_room_pk primary key ( IdQuest, IdRoom );
 
-CREATE TABLE QUEST_REWARDS_ITEM (
-    IdQuest int NOT NULL,
-    IdItem int NOT NULL,
-    Count smallint NOT NULL
+create table quest_rewards_item (
+    IdQuest int not null,
+    IdItem int not null,
+    Count smallint not null
 );
-ALTER TABLE QUEST_REWARDS_ITEM ADD CONSTRAINT QUEST_REWARDS_ITEM_PK PRIMARY KEY ( IdQuest, IdItem );
+alter table quest_rewards_item add constraint quest_rewards_item_pk primary key ( IdQuest, IdItem );
 
-CREATE TABLE RESSOURCE (
-    IdRessource int NOT NULL AUTO_INCREMENT
+create table ressource (
+    IdRessource int not null auto_increment
 );
-ALTER TABLE RESSOURCE ADD CONSTRAINT RESSOURCE_PK PRIMARY KEY ( IdRessource );
+alter table ressource add constraint ressource_pk primary key ( IdRessource );
 
-CREATE TABLE ROOM (
-    IdRoom int NOT NULL AUTO_INCREMENT
+create table room (
+    IdRoom int not null auto_increment
 );
-ALTER TABLE ROOM ADD CONSTRAINT ROOM_PK PRIMARY KEY ( IdRoom );
+alter table room add constraint room_pk primary key ( IdRoom );
 
-CREATE TABLE ROOM_CONTAINS_MONSTER (
-    IdRoom int NOT NULL,
-    IdMonster int NOT NULL,
-    Count tinyint NOT NULL
+create table room_contains_monster (
+    IdRoom int not null,
+    IdMonster int not null,
+    Count tinyint not null
 );
-ALTER TABLE ROOM_CONTAINS_MONSTER ADD CONSTRAINT ROOM_CONTAINS_MONSTER_PK PRIMARY KEY ( IdRoom, IdMonster );
+alter table room_contains_monster add constraint room_contains_monster_pk primary key ( IdRoom, IdMonster );
 
 -- Foreign keys
-ALTER TABLE CHARACTER_EQUIPS_EQUIPMENT ADD CONSTRAINT CHARACTER_EQUIPS_EQUIPMENT_CHARACTER_FK FOREIGN KEY ( IdCharacter ) REFERENCES CHARACTER ( IdCharacter );
-ALTER TABLE CHARACTER_EQUIPS_EQUIPMENT ADD CONSTRAINT CHARACTER_EQUIPS_EQUIPMENT_EQUIPMENT_FK FOREIGN KEY ( IdEquipment ) REFERENCES EQUIPMENT ( IdEquipment );
-ALTER TABLE CHARACTER_HAS_ATTRIBUTE ADD CONSTRAINT CHARACTER_HAS_ATTRIBUTE_ATTRIBUTE_FK FOREIGN KEY ( IdAttribute ) REFERENCES ATTRIBUTE ( IdAttribute );
-ALTER TABLE CHARACTER_HAS_ATTRIBUTE ADD CONSTRAINT CHARACTER_HAS_ATTRIBUTE_CHARACTER_FK FOREIGN KEY ( IdCharacter ) REFERENCES CHARACTER ( IdCharacter );
-ALTER TABLE CHARACTER_HAS_ITEM ADD CONSTRAINT CHARACTER_HAS_ITEM_CHARACTER_FK FOREIGN KEY ( IdCharacter ) REFERENCES CHARACTER ( IdCharacter );
-ALTER TABLE CHARACTER_HAS_ITEM ADD CONSTRAINT CHARACTER_HAS_ITEM_ITEM_FK FOREIGN KEY ( IdItem ) REFERENCES ITEM ( IdItem );
-ALTER TABLE CHAR_EQUIPS_DIE_IN_DICE_SET ADD CONSTRAINT CHAR_EQUIPS_DIE_IN_DICE_SET_CHARACTER_FK FOREIGN KEY ( IdCharacter ) REFERENCES CHARACTER ( IdCharacter );
-ALTER TABLE CHAR_EQUIPS_DIE_IN_DICE_SET ADD CONSTRAINT CHAR_EQUIPS_DIE_IN_DICE_SET_DICE_SET_FK FOREIGN KEY ( IdDiceSet ) REFERENCES DICE_SET ( IdDiceSet );
-ALTER TABLE CHAR_EQUIPS_DIE_IN_DICE_SET ADD CONSTRAINT CHAR_EQUIPS_DIE_IN_DICE_SET_DIE_FK FOREIGN KEY ( IdDie ) REFERENCES DIE ( IdDie );
-ALTER TABLE CLIMATE_MODIFIES_ATTRIBUTE ADD CONSTRAINT CLIMATE_MODIFIES_ATTRIBUTE_ATTRIBUTE_FK FOREIGN KEY ( IdAttribute ) REFERENCES ATTRIBUTE ( IdAttribute );
-ALTER TABLE CLIMATE_MODIFIES_ATTRIBUTE ADD CONSTRAINT CLIMATE_MODIFIES_ATTRIBUTE_CLIMATE_FK FOREIGN KEY ( IdClimate ) REFERENCES CLIMATE ( IdClimate );
-ALTER TABLE CRAFTING_RECIPE ADD CONSTRAINT CRAFTING_RECIPE_ITEM_FK FOREIGN KEY ( IdItem ) REFERENCES ITEM ( IdItem );
-ALTER TABLE CRAFTING_REQUIRES_RESSOURCE ADD CONSTRAINT CRAFTING_REQUIRES_RESSOURCE_CRAFTING_RECIPE_FK FOREIGN KEY ( IdCraftingRecipe ) REFERENCES CRAFTING_RECIPE ( IdCraftingRecipe );
-ALTER TABLE CRAFTING_REQUIRES_RESSOURCE ADD CONSTRAINT CRAFTING_REQUIRES_RESSOURCE_RESSOURCE_FK FOREIGN KEY ( IdRessource ) REFERENCES RESSOURCE ( IdRessource );
-ALTER TABLE DICE_SET ADD CONSTRAINT DICE_SET_ITEM_FK FOREIGN KEY ( IdDiceSet ) REFERENCES ITEM ( IdItem );
-ALTER TABLE DIE ADD CONSTRAINT DIE_DIE_TYPE_FK FOREIGN KEY ( IdDieType ) REFERENCES DIE_TYPE ( IdDieType );
-ALTER TABLE DIE ADD CONSTRAINT DIE_ITEM_FK FOREIGN KEY ( IdDie ) REFERENCES ITEM ( IdItem );
-ALTER TABLE EQUIPMENT ADD CONSTRAINT EQUIPMENT_ITEM_FK FOREIGN KEY ( IdEquipment ) REFERENCES ITEM ( IdItem );
-ALTER TABLE EQUIPMENT_MODIFIES_ATTRIBUTE ADD CONSTRAINT EQUIPMENT_MODIFIES_ATTRIBUTE_ATTRIBUTE_FK FOREIGN KEY ( IdAttribute ) REFERENCES ATTRIBUTE ( IdAttribute );
-ALTER TABLE EQUIPMENT_MODIFIES_ATTRIBUTE ADD CONSTRAINT EQUIPMENT_MODIFIES_ATTRIBUTE_EQUIPMENT_FK FOREIGN KEY ( IdEquipment ) REFERENCES EQUIPMENT ( IdEquipment );
-ALTER TABLE MONSTER_CAN_DROP_ITEM ADD CONSTRAINT MONSTER_CAN_DROP_ITEM_ITEM_FK FOREIGN KEY ( IdItem ) REFERENCES ITEM ( IdItem );
-ALTER TABLE MONSTER_CAN_DROP_ITEM ADD CONSTRAINT MONSTER_CAN_DROP_ITEM_MONSTER_FK FOREIGN KEY ( IdMonster ) REFERENCES MONSTER ( IdMonster );
-ALTER TABLE PLAYER ADD CONSTRAINT PLAYER_CHARACTER_FK FOREIGN KEY ( IdPlayer ) REFERENCES CHARACTER ( IdCharacter );
-ALTER TABLE PLAYER_FINISH_QUEST ADD CONSTRAINT PLAYER_FINISH_QUEST_PLAYER_FK FOREIGN KEY ( IdPlayer ) REFERENCES PLAYER ( IdPlayer );
-ALTER TABLE PLAYER_FINISH_QUEST ADD CONSTRAINT PLAYER_FINISH_QUEST_QUEST_FK FOREIGN KEY ( IdQuest ) REFERENCES QUEST ( IdQuest );
-ALTER TABLE QUEST ADD CONSTRAINT QUEST_CLIMATE_FK FOREIGN KEY ( IdClimate ) REFERENCES CLIMATE ( IdClimate );
-ALTER TABLE QUEST_MADE_OF_ROOM ADD CONSTRAINT QUEST_MADE_OF_ROOM_QUEST_FK FOREIGN KEY ( IdQuest ) REFERENCES QUEST ( IdQuest );
-ALTER TABLE QUEST_MADE_OF_ROOM ADD CONSTRAINT QUEST_MADE_OF_ROOM_ROOM_FK FOREIGN KEY ( IdRoom ) REFERENCES ROOM ( IdRoom );
-ALTER TABLE QUEST_REWARDS_ITEM ADD CONSTRAINT QUEST_REWARDS_ITEM_ITEM_FK FOREIGN KEY ( IdItem ) REFERENCES ITEM ( IdItem );
-ALTER TABLE QUEST_REWARDS_ITEM ADD CONSTRAINT QUEST_REWARDS_ITEM_QUEST_FK FOREIGN KEY ( IdQuest ) REFERENCES QUEST ( IdQuest );
-ALTER TABLE RESSOURCE ADD CONSTRAINT RESSOURCE_ITEM_FK FOREIGN KEY ( IdRessource ) REFERENCES ITEM ( IdItem );
-ALTER TABLE ROOM_CONTAINS_MONSTER ADD CONSTRAINT ROOM_CONTAINS_MONSTER_MONSTER_FK FOREIGN KEY ( IdMonster ) REFERENCES MONSTER ( IdMonster );
-ALTER TABLE ROOM_CONTAINS_MONSTER ADD CONSTRAINT ROOM_CONTAINS_MONSTER_ROOM_FK FOREIGN KEY ( IdRoom ) REFERENCES ROOM ( IdRoom );
-ALTER TABLE MONSTER ADD CONSTRAINT MONSTER_CHARACTER_FK FOREIGN KEY ( IdMonster ) REFERENCES CHARACTER ( IdCharacter );
+alter table character_equips_equipment add constraint character_equips_equipment_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
+alter table character_equips_equipment add constraint character_equips_equipment_equipment_fk foreign key ( IdEquipment ) references equipment ( IdEquipment );
+alter table character_has_attribute add constraint character_has_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
+alter table character_has_attribute add constraint character_has_attribute_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
+alter table character_has_item add constraint character_has_item_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
+alter table character_has_item add constraint character_has_item_item_fk foreign key ( IdItem ) references item ( IdItem );
+alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_character_fk foreign key ( IdCharacter ) references character ( IdCharacter );
+alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_dice_set_fk foreign key ( IdDiceSet ) references dice_set ( IdDiceSet );
+alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_set_die_fk foreign key ( IdDie ) references die ( IdDie );
+alter table climate_modifies_attribute add constraint climate_modifies_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
+alter table climate_modifies_attribute add constraint climate_modifies_attribute_climate_fk foreign key ( IdClimate ) references climate ( IdClimate );
+alter table crafting_recipe add constraint crafting_recipe_item_fk foreign key ( IdItem ) references item ( IdItem );
+alter table crafting_requires_ressource add constraint crafting_requires_ressource_crafting_recipe_fk foreign key ( IdCraftingRecipe ) references crafting_recipe ( IdCraftingRecipe );
+alter table crafting_requires_ressource add constraint crafting_requires_ressource_ressource_fk foreign key ( IdRessource ) references ressource ( IdRessource );
+alter table dice_set add constraint dice_set_item_fk foreign key ( IdDiceSet ) references item ( IdItem );
+alter table die add constraint die_die_type_fk foreign key ( IdDieType ) references die_type ( IdDieType );
+alter table die add constraint die_item_fk foreign key ( IdDie ) references item ( IdItem );
+alter table equipment add constraint equipment_item_fk foreign key ( IdEquipment ) references item ( IdItem );
+alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
+alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_equipment_fk foreign key ( IdEquipment ) references equipment ( IdEquipment );
+alter table monster_can_drop_item add constraint monster_can_drop_item_item_fk foreign key ( IdItem ) references item ( IdItem );
+alter table monster_can_drop_item add constraint monster_can_drop_item_monster_fk foreign key ( IdMonster ) references monster ( IdMonster );
+alter table player add constraint player_character_fk foreign key ( IdPlayer ) references character ( IdCharacter );
+alter table player_finish_quest add constraint player_finish_quest_player_fk foreign key ( IdPlayer ) references player ( IdPlayer );
+alter table player_finish_quest add constraint player_finish_quest_quest_fk foreign key ( IdQuest ) references quest ( IdQuest );
+alter table quest add constraint quest_climate_fk foreign key ( IdClimate ) references climate ( IdClimate );
+alter table quest_made_of_room add constraint quest_made_of_room_quest_fk foreign key ( IdQuest ) references quest ( IdQuest );
+alter table quest_made_of_room add constraint quest_made_of_room_room_fk foreign key ( IdRoom ) references room ( IdRoom );
+alter table quest_rewards_item add constraint quest_rewards_item_item_fk foreign key ( IdItem ) references item ( IdItem );
+alter table quest_rewards_item add constraint quest_rewards_item_quest_fk foreign key ( IdQuest ) references quest ( IdQuest );
+alter table ressource add constraint ressource_item_fk foreign key ( IdRessource ) references item ( IdItem );
+alter table room_contains_monster add constraint room_contains_monster_monster_fk foreign key ( IdMonster ) references monster ( IdMonster );
+alter table room_contains_monster add constraint room_contains_monster_room_fk foreign key ( IdRoom ) references room ( IdRoom );
+alter table monster add constraint monster_character_fk foreign key ( IdMonster ) references character ( IdCharacter );
