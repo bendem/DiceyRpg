@@ -1,14 +1,28 @@
 package be.bendem.bot.inventories.items;
 
-import be.bendem.bot.inventories.EquipmentSlot;
-
 public class Equipment extends Item {
 
-    public final EquipmentSlot equipmentSlot;
+    public final Slot equipmentSlot;
 
-    public Equipment(int id, String name, String description, int value, Rank rank, EquipmentSlot equipmentSlot) {
+    public Equipment(int id, String name, String description, int value, Rank rank, Slot equipmentSlot) {
         super(id, name, description, value, rank, Type.Equipment);
         this.equipmentSlot = equipmentSlot;
+    }
+
+    public static enum Slot {
+
+        Head,
+        Chest,
+        Belt,
+        Legs,
+        Feet,
+        Gloves,
+        Cape,
+        Necklace,
+        Ring1,
+        Ring2,
+        ;
+
     }
 
 }

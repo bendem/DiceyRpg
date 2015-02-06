@@ -40,4 +40,15 @@ public abstract class Item {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(!(o instanceof Item)) return false;
+        return id == ((Item) o).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }
