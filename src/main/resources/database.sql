@@ -10,7 +10,6 @@ drop table if exists crafting_recipe;
 drop table if exists crafting_requires_resource;
 drop table if exists dice_set;
 drop table if exists die;
-drop table if exists die_type;
 drop table if exists equipment_modifies_attribute;
 drop table if exists monster;
 drop table if exists monster_can_drop_item;
@@ -96,17 +95,11 @@ create table dice_set (
 
 create table die (
     IdDie int not null auto_increment,
-    IdDieType int not null,
-    MIN tinyint not null,
-    MAX tinyint not null,
+    Type tinyint not null, -- enum
+    Min tinyint not null,
+    Max tinyint not null,
     CanFail boolean default true not null,
     constraint die_pk primary key ( IdDie )
-);
-
-create table die_type (
-    IdDieType int not null,
-    Name varchar(50) not null,
-    constraint die_type_pk primary key ( IdDieType )
 );
 
 create table equipment (
@@ -217,7 +210,6 @@ alter table crafting_recipe add constraint crafting_recipe_item_fk foreign key (
 alter table crafting_requires_resource add constraint crafting_requires_resource_crafting_recipe_fk foreign key ( IdCraftingRecipe ) references crafting_recipe ( IdCraftingRecipe );
 alter table crafting_requires_resource add constraint crafting_requires_resource_resource_fk foreign key ( IdResource ) references resource ( IdResource );
 alter table dice_set add constraint dice_set_item_fk foreign key ( IdDiceSet ) references item ( IdItem );
-alter table die add constraint die_die_type_fk foreign key ( IdDieType ) references die_type ( IdDieType );
 alter table die add constraint die_item_fk foreign key ( IdDie ) references item ( IdItem );
 alter table equipment add constraint equipment_item_fk foreign key ( IdEquipment ) references item ( IdItem );
 alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
