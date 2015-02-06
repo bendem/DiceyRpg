@@ -7,7 +7,7 @@ drop table if exists char_equips_die_in_dice_set;
 drop table if exists climate;
 drop table if exists climate_modifies_attribute;
 drop table if exists crafting_recipe;
-drop table if exists crafting_requires_ressource;
+drop table if exists crafting_requires_resource;
 drop table if exists dice_set;
 drop table if exists die;
 drop table if exists die_type;
@@ -19,7 +19,7 @@ drop table if exists player_finish_quest;
 drop table if exists quest;
 drop table if exists quest_made_of_room;
 drop table if exists quest_rewards_item;
-drop table if exists ressource;
+drop table if exists resource;
 drop table if exists room;
 drop table if exists room_contains_monster;
 
@@ -81,11 +81,11 @@ create table crafting_recipe (
     constraint crafting_recipe_pk primary key ( IdCraftingRecipe )
 );
 
-create table crafting_requires_ressource (
+create table crafting_requires_resource (
     IdCraftingRecipe int not null,
-    IdRessource int not null,
+    IdResource int not null,
     Count smallint not null,
-    constraint crafting_requires_ressource_pk primary key ( IdCraftingRecipe, IdRessource )
+    constraint crafting_requires_resource_pk primary key ( IdCraftingRecipe, IdResource )
 );
 
 create table dice_set (
@@ -184,9 +184,9 @@ create table quest_rewards_item (
     constraint quest_rewards_item_pk primary key ( IdQuest, IdItem )
 );
 
-create table ressource (
-    IdRessource int not null auto_increment,
-    constraint ressource_pk primary key ( IdRessource )
+create table resource (
+    IdResource int not null auto_increment,
+    constraint resource_pk primary key ( IdResource )
 );
 
 create table room (
@@ -214,8 +214,8 @@ alter table char_equips_die_in_dice_set add constraint char_equips_die_in_dice_s
 alter table climate_modifies_attribute add constraint climate_modifies_attribute_attribute_fk foreign key ( IdAttribute ) references attribute ( IdAttribute );
 alter table climate_modifies_attribute add constraint climate_modifies_attribute_climate_fk foreign key ( IdClimate ) references climate ( IdClimate );
 alter table crafting_recipe add constraint crafting_recipe_item_fk foreign key ( IdItem ) references item ( IdItem );
-alter table crafting_requires_ressource add constraint crafting_requires_ressource_crafting_recipe_fk foreign key ( IdCraftingRecipe ) references crafting_recipe ( IdCraftingRecipe );
-alter table crafting_requires_ressource add constraint crafting_requires_ressource_ressource_fk foreign key ( IdRessource ) references ressource ( IdRessource );
+alter table crafting_requires_resource add constraint crafting_requires_resource_crafting_recipe_fk foreign key ( IdCraftingRecipe ) references crafting_recipe ( IdCraftingRecipe );
+alter table crafting_requires_resource add constraint crafting_requires_resource_resource_fk foreign key ( IdResource ) references resource ( IdResource );
 alter table dice_set add constraint dice_set_item_fk foreign key ( IdDiceSet ) references item ( IdItem );
 alter table die add constraint die_die_type_fk foreign key ( IdDieType ) references die_type ( IdDieType );
 alter table die add constraint die_item_fk foreign key ( IdDie ) references item ( IdItem );
@@ -232,7 +232,7 @@ alter table quest_made_of_room add constraint quest_made_of_room_quest_fk foreig
 alter table quest_made_of_room add constraint quest_made_of_room_room_fk foreign key ( IdRoom ) references room ( IdRoom );
 alter table quest_rewards_item add constraint quest_rewards_item_item_fk foreign key ( IdItem ) references item ( IdItem );
 alter table quest_rewards_item add constraint quest_rewards_item_quest_fk foreign key ( IdQuest ) references quest ( IdQuest );
-alter table ressource add constraint ressource_item_fk foreign key ( IdRessource ) references item ( IdItem );
+alter table resource add constraint resource_item_fk foreign key ( IdResource ) references item ( IdItem );
 alter table room_contains_monster add constraint room_contains_monster_monster_fk foreign key ( IdMonster ) references monster ( IdMonster );
 alter table room_contains_monster add constraint room_contains_monster_room_fk foreign key ( IdRoom ) references room ( IdRoom );
 alter table monster add constraint monster_character_fk foreign key ( IdMonster ) references character ( IdCharacter );
