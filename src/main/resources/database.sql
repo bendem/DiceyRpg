@@ -24,13 +24,13 @@ drop table if exists ROOM;
 drop table if exists ROOM_CONTAINS_MONSTER;
 
 CREATE TABLE ATTRIBUTE (
-    IdAttribute int NOT NULL,
-    Name varchar(50)
+    IdAttribute int NOT NULL AUTO_INCREMENT,
+    Name varchar(50) NOT NULL
 );
 ALTER TABLE ATTRIBUTE ADD CONSTRAINT ATTRIBUTE_PK PRIMARY KEY ( IdAttribute );
 
 CREATE TABLE CHARACTER (
-    IdCharacter int NOT NULL
+    IdCharacter int NOT NULL AUTO_INCREMENT
 );
 ALTER TABLE CHARACTER ADD CONSTRAINT CHARACTER_PK PRIMARY KEY ( IdCharacter );
 
@@ -43,14 +43,14 @@ ALTER TABLE CHARACTER_EQUIPS_EQUIPMENT ADD CONSTRAINT CHARACTER_EQUIPS_EQUIPMENT
 CREATE TABLE CHARACTER_HAS_ATTRIBUTE (
     IdCharacter int NOT NULL,
     IdAttribute int NOT NULL,
-    Value int
+    Value int NOT NULL
 );
 ALTER TABLE CHARACTER_HAS_ATTRIBUTE ADD CONSTRAINT CHARACTER_HAS_ATTRIBUTE_PK PRIMARY KEY ( IdCharacter, IdAttribute );
 
 CREATE TABLE CHARACTER_HAS_ITEM (
     IdCharacter int NOT NULL,
     IdItem int NOT NULL,
-    Count tinyint
+    Count tinyint NOT NULL
 );
 ALTER TABLE CHARACTER_HAS_ITEM ADD CONSTRAINT CHARACTER_HAS_ITEM_PK PRIMARY KEY ( IdCharacter, IdItem );
 
@@ -62,7 +62,7 @@ CREATE TABLE CHAR_EQUIPS_DIE_IN_DICE_SET (
 ALTER TABLE CHAR_EQUIPS_DIE_IN_DICE_SET ADD CONSTRAINT CHAR_EQUIPS_DIE_IN_DICE_SET_PK PRIMARY KEY ( IdCharacter, IdDie, IdDiceSet );
 
 CREATE TABLE CLIMATE (
-    IdClimate int NOT NULL,
+    IdClimate int NOT NULL AUTO_INCREMENT,
     Description clob
 );
 ALTER TABLE CLIMATE ADD CONSTRAINT CLIMATE_PK PRIMARY KEY ( IdClimate );
@@ -70,70 +70,70 @@ ALTER TABLE CLIMATE ADD CONSTRAINT CLIMATE_PK PRIMARY KEY ( IdClimate );
 CREATE TABLE CLIMATE_MODIFIES_ATTRIBUTE (
     IdClimate int NOT NULL,
     IdAttribute int NOT NULL,
-    Modifier smallint
+    Modifier smallint NOT NULL -- enum
 );
 ALTER TABLE CLIMATE_MODIFIES_ATTRIBUTE ADD CONSTRAINT CLIMATE_MODIFIES_ATTRIBUTE_PK PRIMARY KEY ( IdClimate, IdAttribute );
 
 CREATE TABLE CRAFTING_RECIPE (
-    IdCraftingRecipe int NOT NULL,
+    IdCraftingRecipe int NOT NULL AUTO_INCREMENT,
     IdItem int NOT NULL,
-    Count tinyint
+    Count tinyint DEFAULT 1 NOT NULL
 );
 ALTER TABLE CRAFTING_RECIPE ADD CONSTRAINT CRAFTING_RECIPE_PK PRIMARY KEY ( IdCraftingRecipe );
 
 CREATE TABLE CRAFTING_REQUIRES_RESSOURCE (
     IdCraftingRecipe int NOT NULL,
     IdRessource int NOT NULL,
-    Count smallint
+    Count smallint NOT NULL
 );
 ALTER TABLE CRAFTING_REQUIRES_RESSOURCE ADD CONSTRAINT CRAFTING_REQUIRES_RESSOURCE_PK PRIMARY KEY ( IdCraftingRecipe, IdRessource );
 
 CREATE TABLE DICE_SET (
-    IdDiceSet int NOT NULL,
-    NumberOfDice tinyint
+    IdDiceSet int NOT NULL AUTO_INCREMENT,
+    NumberOfDice tinyint NOT NULL
 );
 ALTER TABLE DICE_SET ADD CONSTRAINT DICE_SET_PK PRIMARY KEY ( IdDiceSet );
 
 CREATE TABLE DIE (
-    IdDie int NOT NULL,
+    IdDie int NOT NULL AUTO_INCREMENT,
     IdDieType int NOT NULL,
-    MIN tinyint,
-    MAX tinyint,
-    CanFail boolean
+    MIN tinyint NOT NULL,
+    MAX tinyint NOT NULL,
+    CanFail boolean DEFAULT true NOT NULL
 );
 ALTER TABLE DIE ADD CONSTRAINT DIE_PK PRIMARY KEY ( IdDie );
 
 CREATE TABLE DIE_TYPE (
     IdDieType int NOT NULL,
-    Name varchar(50)
+    Name varchar(50) NOT NULL
 );
 ALTER TABLE DIE_TYPE ADD CONSTRAINT DIE_TYPE_PK PRIMARY KEY ( IdDieType );
 
 CREATE TABLE EQUIPMENT (
-    IdEquipment int NOT NULL,
-    EquipableSlot tinyint
+    IdEquipment int NOT NULL AUTO_INCREMENT,
+    EquipableSlot tinyint -- enum, null = not equipable
 );
 ALTER TABLE EQUIPMENT ADD CONSTRAINT EQUIPMENT_PK PRIMARY KEY ( IdEquipment );
 
 CREATE TABLE EQUIPMENT_MODIFIES_ATTRIBUTE (
     IdEquipment int NOT NULL,
     IdAttribute int NOT NULL,
-    Modifier smallint
+    Modifier smallint NOT NULL -- enum
 );
 ALTER TABLE EQUIPMENT_MODIFIES_ATTRIBUTE ADD CONSTRAINT EQUIPMENT_MODIFIES_ATTRIBUTE_PK PRIMARY KEY ( IdEquipment, IdAttribute );
 
 CREATE TABLE ITEM (
-    IdItem int NOT NULL,
+    IdItem int NOT NULL AUTO_INCREMENT,
     Name varchar(50),
     Description clob,
-    Value int,
-    Rank tinyint
+    Value int NOT NULL,
+    Rank tinyint NOT NULL -- enum, def?
 );
 ALTER TABLE ITEM ADD CONSTRAINT ITEM_PK PRIMARY KEY ( IdItem );
 
 CREATE TABLE MONSTER (
-    IdMonster int NOT NULL,
-    Boss boolean,
+    IdMonster int NOT NULL AUTO_INCREMENT,
+    Boss boolean DEFAULT false NOT NULL,
     Description clob
 );
 ALTER TABLE MONSTER ADD CONSTRAINT MONSTER_PK PRIMARY KEY ( IdMonster );
@@ -141,30 +141,30 @@ ALTER TABLE MONSTER ADD CONSTRAINT MONSTER_PK PRIMARY KEY ( IdMonster );
 CREATE TABLE MONSTER_CAN_DROP_ITEM (
     IdMonster int NOT NULL,
     IdItem int NOT NULL,
-    Count smallint,
-    Probability tinyint
+    Count smallint NOT NULL,
+    Probability tinyint NOT NULL -- percent represented from 0 to 100
 );
 ALTER TABLE MONSTER_CAN_DROP_ITEM ADD CONSTRAINT MONSTER_CAN_DROP_ITEM_PK PRIMARY KEY ( IdMonster, IdItem );
 
 CREATE TABLE PLAYER (
-    IdPlayer int NOT NULL,
-    Username varchar(50),
-    Password varchar(255),
-    Level smallint,
-    Experience int,
-    Money bigint
+    IdPlayer int NOT NULL AUTO_INCREMENT,
+    Username varchar(50) NOT NULL, -- unique
+    Password varchar(255) NOT NULL,
+    Level smallint DEFAULT 1 NOT NULL,
+    Experience int DEFAULT 0 NOT NULL,
+    Money bigint DEFAULT 0 NOT NULL
 );
 ALTER TABLE PLAYER ADD CONSTRAINT PLAYER_PK PRIMARY KEY ( IdPlayer );
 
 CREATE TABLE PLAYER_FINISH_QUEST (
     IdPlayer int NOT NULL,
     IdQuest int NOT NULL,
-    DateCompletion timestamp
+    DateCompletion timestamp DEFAULT current_timestamp NOT NULL
 );
 ALTER TABLE PLAYER_FINISH_QUEST ADD CONSTRAINT PLAYER_FINISH_QUEST_PK PRIMARY KEY ( IdPlayer, IdQuest );
 
 CREATE TABLE QUEST (
-    IdQuest int NOT NULL,
+    IdQuest int NOT NULL AUTO_INCREMENT,
     IdClimate int NOT NULL,
     Description clob
 );
@@ -173,31 +173,31 @@ ALTER TABLE QUEST ADD CONSTRAINT QUEST_PK PRIMARY KEY ( IdQuest );
 CREATE TABLE QUEST_MADE_OF_ROOM (
     IdQuest int NOT NULL,
     IdRoom int NOT NULL,
-    OrderNr tinyint
+    OrderNr tinyint NOT NULL
 );
 ALTER TABLE QUEST_MADE_OF_ROOM ADD CONSTRAINT QUEST_MADE_OF_ROOM_PK PRIMARY KEY ( IdQuest, IdRoom );
 
 CREATE TABLE QUEST_REWARDS_ITEM (
     IdQuest int NOT NULL,
     IdItem int NOT NULL,
-    Count smallint
+    Count smallint NOT NULL
 );
 ALTER TABLE QUEST_REWARDS_ITEM ADD CONSTRAINT QUEST_REWARDS_ITEM_PK PRIMARY KEY ( IdQuest, IdItem );
 
 CREATE TABLE RESSOURCE (
-    IdRessource int NOT NULL
+    IdRessource int NOT NULL AUTO_INCREMENT
 );
 ALTER TABLE RESSOURCE ADD CONSTRAINT RESSOURCE_PK PRIMARY KEY ( IdRessource );
 
 CREATE TABLE ROOM (
-    IdRoom int NOT NULL
+    IdRoom int NOT NULL AUTO_INCREMENT
 );
 ALTER TABLE ROOM ADD CONSTRAINT ROOM_PK PRIMARY KEY ( IdRoom );
 
 CREATE TABLE ROOM_CONTAINS_MONSTER (
     IdRoom int NOT NULL,
     IdMonster int NOT NULL,
-    Count tinyint
+    Count tinyint NOT NULL
 );
 ALTER TABLE ROOM_CONTAINS_MONSTER ADD CONSTRAINT ROOM_CONTAINS_MONSTER_PK PRIMARY KEY ( IdRoom, IdMonster );
 
