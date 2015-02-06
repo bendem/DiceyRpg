@@ -5,11 +5,22 @@ package be.bendem.bot.inventories.items;
  *
  * @author bendem
  */
-public interface Item {
+public class Item {
 
-    public long getId();
-    public String getName();
-    public String getDescription();
-    public ItemType getType();
+    public final int id;
+    public final String name;
+    public final String description;
+    public final int value;
+    public final Rank rank;
+    public final ItemType type;
+
+    public Item(int id, String name, String description, int value, Rank rank, ItemType type) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.value = value;
+        this.rank = rank;
+        this.type = type;
+    }
 
 }

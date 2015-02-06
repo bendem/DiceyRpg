@@ -5,11 +5,10 @@ package be.bendem.bot.inventories.items;
  */
 public enum ItemType {
 
-    SlotUpgrade,
     Die,
-    DieSet,
-    CraftingMaterial,
-    Equipable,
+    DiceSet,
+    Resource,
+    Equipment,
     ;
 
 }
