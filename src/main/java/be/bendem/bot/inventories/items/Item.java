@@ -1,6 +1,6 @@
 package be.bendem.bot.inventories.items;
 
-public class Item {
+public abstract class Item {
 
     public final int id;
     public final String name;
