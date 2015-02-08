@@ -1,18 +1,41 @@
 package be.bendem.bot.entities;
 
-import be.bendem.bot.inventories.items.Die;
-import be.bendem.bot.inventories.items.Item;
+import be.bendem.bot.entities.attributes.Attribute;
+import be.bendem.bot.entities.attributes.Attributes;
+import be.bendem.bot.utils.RandomUtils;
 
-import java.util.List;
-import java.util.Map;
+public class Monster extends Character {
 
-public class Monster extends Character implements Cloneable {
+    // TODO Monster dice and drops (based on their levels)
+    //private final List<Die> dice;
+    //private final Map<Item, Byte> drops;
 
-    private List<Die> dice;
-    private Map<Item, Byte> drops;
+    /**
+     * Creates a base level 1 monster to put in the game registry
+     *
+     * @param id         the monster id
+     * @param name       the monster's name
+     * @param attributes the attributes of the monster
+     */
+    public Monster(int id, String name, Attributes attributes) {
+        super(id, name, attributes);
+    }
 
-    protected Monster(int id, String name, int maxHealth) {
-        super(id, name, maxHealth);
+    /**
+     * Creates a monster with randomized attributes based on his level
+     *
+     * @param monster the monster to get basic informations from
+     * @param level   the level of the monster
+     */
+    public Monster(Monster monster, int level) {
+        super(monster.id, monster.name, randomAttributes(monster.attributes, level), level);
+    }
+
+    private static Attributes randomAttributes(Attributes attributes, int level) {
+        for(int i = 0; i < level; i++) {
+            attributes.add(RandomUtils.nextEnum(Attribute.class), 1);
+        }
+        return attributes;
     }
 
 }

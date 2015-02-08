@@ -146,10 +146,11 @@ create table monster_can_drop_item (
 create table player (
     IdPlayer int not null auto_increment,
     Username varchar(50) not null, -- unique
-    Password varchar(255) not null,
+    Password varchar(255) not null, -- should move to an account table with register time, last login and such informations
     Level smallint default 1 not null,
     Experience int default 0 not null,
     Money bigint default 0 not null,
+    UnusedAttributePointCount int default 0 not null,
     constraint player_pk primary key ( IdPlayer )
 );
 
@@ -194,8 +195,9 @@ create table room (
 create table room_contains_monster (
     IdRoom int not null,
     IdMonster int not null,
+    Level smallint not null,
     Count tinyint not null,
-    constraint room_contains_monster_pk primary key ( IdRoom, IdMonster )
+    constraint room_contains_monster_pk primary key ( IdRoom, IdMonster, Level )
 );
 
 -- Foreign keys
