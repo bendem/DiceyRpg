@@ -36,7 +36,7 @@ public abstract class Character {
     private static int computeHealth(int level, int constitution) {
         // TODO That's really basic, maybe it needs rethinking
         int health = BASE_HEALTH;
-        for(int i = 1; i <= level; i++) {
+        for(int i = 1; i <= level; ++i) {
             health += BASE_HEALTH_PER_LEVEL * (i + HEALTH_LEVEL_MODIFIER);
         }
         return health + constitution;

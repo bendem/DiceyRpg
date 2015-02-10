@@ -3,6 +3,8 @@ package be.bendem.bot.inventories.items;
 public class Equipment extends Item {
 
     public final Slot equipmentSlot;
+    // TODO Attributes
+    //public final Attributes attributes;
 
     public Equipment(int id, String name, String description, int value, Rank rank, Slot equipmentSlot) {
         super(id, name, description, value, rank, Type.Equipment);

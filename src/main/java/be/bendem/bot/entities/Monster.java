@@ -32,7 +32,7 @@ public class Monster extends Character {
     }
 
     private static Attributes randomAttributes(Attributes attributes, int level) {
-        for(int i = 0; i < level; i++) {
+        for(int i = 0; i < level; ++i) {
             attributes.add(RandomUtils.nextEnum(Attribute.class), 1);
         }
         return attributes;

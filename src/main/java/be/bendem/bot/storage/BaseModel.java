@@ -26,7 +26,7 @@ public class BaseModel<T> implements Model<T> {
         return table;
     }
 
-    public Collection<T> getAllThrowing() throws SQLException {
+    private Collection<T> getAllThrowing() throws SQLException {
         PreparedStatement ps = database.prepare("SELECT * FROM ?");
         ps.setString(1, table);
         ResultSet rs = ps.executeQuery();
@@ -62,7 +62,7 @@ public class BaseModel<T> implements Model<T> {
     @Override
     public boolean add(T item) {
         StringJoiner joiner = new StringJoiner(", ");
-        for(int i = 0; i < adaptater.fieldCount(); i++) {
+        for(int i = 0; i < adaptater.fieldCount(); ++i) {
             joiner.add("?");
         }
         int count;
