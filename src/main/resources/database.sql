@@ -14,7 +14,6 @@ drop table if exists equipment_modifies_attribute;
 drop table if exists item;
 drop table if exists monster;
 drop table if exists monster_has_die;
-drop table if exists monster_can_drop_item;
 drop table if exists player;
 drop table if exists player_finish_quest;
 drop table if exists quest;
@@ -116,8 +115,11 @@ create table item (
     IdItem int not null auto_increment,
     Name varchar(50),
     Description clob,
-    Value int not null,
+    Value int not null, -- for selling to bot shop
     Rank tinyint not null, -- enum, def?
+    LevelRequired smallint not null, -- Level required to equip (people should have more chances to drop stuff close to or below their level)
+    DropProbability smallint not null, -- 1 chance out of the value
+    DropClimate int, -- the climate the item can be dropped in (or null if not bound to a climate)
     constraint item_pk primary key ( IdItem )
 );
 
@@ -133,14 +135,6 @@ create table monster_has_die (
     IdMonster int not null,
     IdDie int not null,
     constraint monster_has_die_pk primary key ( IdMonster, IdDie )
-);
-
-create table monster_can_drop_item (
-    IdMonster int not null,
-    IdItem int not null,
-    Count smallint not null,
-    Probability tinyint not null, -- percent represented from 0 to 100
-    constraint monster_can_drop_item_pk primary key ( IdMonster, IdItem )
 );
 
 create table player (
@@ -217,8 +211,6 @@ alter table dice_set add constraint dice_set_item_fk foreign key ( IdDiceSet ) r
 alter table die add constraint die_item_fk foreign key ( IdDie ) references item ( IdItem );
 alter table equipment add constraint equipment_item_fk foreign key ( IdEquipment ) references item ( IdItem );
 alter table equipment_modifies_attribute add constraint equipment_modifies_attribute_equipment_fk foreign key ( IdEquipment ) references equipment ( IdEquipment );
-alter table monster_can_drop_item add constraint monster_can_drop_item_item_fk foreign key ( IdItem ) references item ( IdItem );
-alter table monster_can_drop_item add constraint monster_can_drop_item_monster_fk foreign key ( IdMonster ) references monster ( IdMonster );
 alter table player add constraint player_character_fk foreign key ( IdPlayer ) references character ( IdCharacter );
 alter table player_finish_quest add constraint player_finish_quest_player_fk foreign key ( IdPlayer ) references player ( IdPlayer );
 alter table player_finish_quest add constraint player_finish_quest_quest_fk foreign key ( IdQuest ) references quest ( IdQuest );
