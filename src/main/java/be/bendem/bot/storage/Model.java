@@ -2,14 +2,48 @@ package be.bendem.bot.storage;
 
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 public interface Model<T> {
 
-    public String getTable();
+    /**
+     * Gets all the items handled by this model.
+     *
+     * @return a collection containing all the item handled by this model
+     */
     public Collection<T> getAll();
-    public Collection<T> getAll(Predicate<T> predicate);
-    public Optional<T> getFirst(Predicate<T> predicate);
-    public boolean add(T item);
+
+    /**
+     * Gets the item corresponding to the provided id.
+     *
+     * @param id the id of the item
+     * @return the optional item
+     */
+    public Optional<T> get(int id);
+
+    /**
+     * Gets the item corresponding to the provided name.
+     *
+     * @param name the name of the item
+     * @return the optional item
+     * @throws UnsupportedOperationException if the model doesn't handle name lookups
+     */
+    default public Optional<T> get(String name) {
+        throw new UnsupportedOperationException(getClass().getName() + " does not suport name predicates");
+    }
+
+    /**
+     * Adds an item to the database.
+     *
+     * @param item the item to add
+     */
+    public void add(T item);
+
+    /**
+     * Updates an item of the database
+     *
+     * @param item the item to update
+     * @throws IllegalArgumentException if the id and the item do not correspond to a row in the db
+     */
+    public void update(T item);
 
 }

@@ -29,7 +29,7 @@ dependencies {
 
 shadowJar {
     dependencies {
-        include(dependency('org.kitteh.irc:client-lib:0.1.7-SNAPSHOT'))
+        include(dependency('org.kitteh.irc:client-lib:0.1.9-SNAPSHOT'))
         include(dependency('com.h2database:h2:1.4.185'))
     }
 }

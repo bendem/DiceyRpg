@@ -9,6 +9,7 @@ import be.bendem.bot.commands.handling.CommandHandler;
 import be.bendem.bot.config.Config;
 import be.bendem.bot.handler.CommonEventHandler;
 import be.bendem.bot.storage.Database;
+import be.bendem.bot.storage.GameRegistry;
 import org.kitteh.irc.client.library.Client;
 import org.kitteh.irc.client.library.ClientBuilder;
 
@@ -28,6 +29,7 @@ public class RpgBot {
     public final Config config;
     public final Client client;
     public final Database database;
+    public final GameRegistry gameRegistry;
 
     public RpgBot() {
         Path dataFolder = Paths.get(".", "data");
@@ -42,6 +44,8 @@ public class RpgBot {
         } catch (SQLException e) {
             throw new RuntimeException("Could not access setup db", e);
         }
+        gameRegistry = new GameRegistry(database);
+
         client = new ClientBuilder()
 
             .realName(config.get(Config.Key.Realname))

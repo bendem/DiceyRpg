@@ -1,5 +1,8 @@
 package be.bendem.bot.storage;
 
+import be.bendem.bot.inventories.items.Item;
+import be.bendem.bot.storage.models.ResourceModel;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +17,7 @@ import java.util.Map;
 public class Database {
 
     private final Connection connection;
-    private final Map<Class<?>, Model<?>> adaptaters;
+    private final Map<Class<?>, Model<?>> models;
 
     public Database(Path dbFile) throws SQLException {
         if(Files.notExists(dbFile)) {
@@ -26,24 +29,52 @@ public class Database {
         }
         connection = DriverManager.getConnection("jdbc:h2:" + dbFile);
 
-        Map<Class<?>, Model<?>> adaptaterMap = new HashMap<>();
-        // TODO register adaptaters here
+        Map<Class<?>, Model<?>> modelMap = new HashMap<>();
+        modelMap.put(Item.class, new ResourceModel(this));
 
-        this.adaptaters = Collections.unmodifiableMap(adaptaterMap);
+        this.models = Collections.unmodifiableMap(modelMap);
 
-        // TODO Create tables if they don't exist
+        // TODO Migrations?
     }
 
     @SuppressWarnings("unchecked")
     public <T> Model<T> getModel(Class<T> clazz) {
-        return (Model<T>) adaptaters.get(clazz);
+        Model<?> model = models.get(clazz);
+        if(model == null) {
+            throw new IllegalArgumentException("No model found for '" + clazz.getName() + "'");
+        }
+        return (Model<T>) model;
     }
 
-    PreparedStatement prepare(String sql) {
+    /**
+     * Create a prepared statement from the connection handled by this database object.
+     * <p>
+     * This should only be used by models, not by the application
+     *
+     * @param sql SQL request
+     * @return the prepared statement
+     */
+    public PreparedStatement prepare(String sql) {
         try {
             return connection.prepareStatement(sql);
         } catch(SQLException e) {
             throw new RuntimeException("Couldn't prepare statement", e);
+        }
+    }
+
+    public void setAutoCommit(boolean autoCommit) {
+        try {
+            connection.setAutoCommit(autoCommit);
+        } catch(SQLException e) {
+            throw new RuntimeException("Couldn't change autocommit", e);
+        }
+    }
+
+    public void commit() {
+        try {
+            connection.commit();
+        } catch(SQLException e) {
+            throw new RuntimeException("Couldn't commit", e);
         }
     }
 

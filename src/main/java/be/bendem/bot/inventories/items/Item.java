@@ -1,5 +1,7 @@
 package be.bendem.bot.inventories.items;
 
+import be.bendem.bot.game.Climate;
+
 public abstract class Item {
 
     public final int id;
@@ -7,14 +9,20 @@ public abstract class Item {
     public final String description;
     public final int value;
     public final Rank rank;
+    public final int levelRequired;
+    public final int dropProbability;
+    public final Climate dropClimate;
     public final Type type;
 
-    public Item(int id, String name, String description, int value, Rank rank, Type type) {
+    public Item(int id, String name, String description, int value, Rank rank, int levelRequired, int dropProbability, Climate dropClimate, Type type) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.value = value;
         this.rank = rank;
+        this.levelRequired = levelRequired;
+        this.dropProbability = dropProbability;
+        this.dropClimate = dropClimate;
         this.type = type;
     }
 
