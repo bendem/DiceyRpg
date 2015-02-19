@@ -6,8 +6,8 @@ import be.bendem.bot.inventories.items.Resource;
 import be.bendem.bot.storage.Database;
 import be.bendem.bot.storage.GameRegistry;
 import be.bendem.bot.storage.Model;
+import be.bendem.bot.storage.SqlQuery;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -29,13 +29,14 @@ public class ResourceModel implements Model<Resource> {
         this.db = db;
     }
 
-    private List<Resource> exec(PreparedStatement stmt) throws SQLException{
-        ResultSet result = stmt.executeQuery();
+    private List<Resource> exec(SqlQuery stmt) throws SQLException{
+        ResultSet result = stmt.query();
 
         ArrayList<Resource> list = new ArrayList<>();
         while(result.next()) {
             list.add(read(result));
         }
+
         return list;
     }
 
@@ -59,7 +60,7 @@ public class ResourceModel implements Model<Resource> {
 
     @Override
     public Collection<Resource> getAll() {
-        PreparedStatement stmt = db.prepare(DEFAULT_QUERY);
+        SqlQuery stmt = db.prepare(DEFAULT_QUERY);
         try {
             return exec(stmt);
         } catch(SQLException e) {
@@ -71,10 +72,10 @@ public class ResourceModel implements Model<Resource> {
 
     @Override
     public Optional<Resource> get(int id) {
-        PreparedStatement stmt = db.prepare(DEFAULT_QUERY + " where IdItem = ?");
+        SqlQuery stmt = db.prepare(DEFAULT_QUERY + " where IdItem = ?");
         List<Resource> exec;
         try {
-            stmt.setInt(0, id);
+            stmt.set(0, id);
             exec = exec(stmt);
         } catch(SQLException e) {
             // TODO
@@ -88,10 +89,10 @@ public class ResourceModel implements Model<Resource> {
 
     @Override
     public Optional<Resource> get(String name) {
-        PreparedStatement stmt = db.prepare(DEFAULT_QUERY + " where IdItem = ?");
+        SqlQuery stmt = db.prepare(DEFAULT_QUERY + " where IdItem = ?");
         List<Resource> exec;
         try {
-            stmt.setString(0, name);
+            stmt.set(0, name);
             exec = exec(stmt);
         } catch(SQLException e) {
             // TODO
@@ -106,36 +107,36 @@ public class ResourceModel implements Model<Resource> {
     @Override
     public void add(Resource item) {
         db.setAutoCommit(false);
-        PreparedStatement stmt = db.prepare(
+        SqlQuery stmt = db.prepare(
             "insert into item ("
                 + String.join(", ", ITEM_FIELDS)
             + ") values ("
                 + Stream.of(ITEM_FIELDS).map(e -> "?").collect(Collectors.joining(", "))
             + ")"
         );
-        try {
-            stmt.setInt(0, item.id);
-            stmt.setString(1, item.name);
-            stmt.setString(2, item.description);
-            stmt.setInt(3, item.value);
-            stmt.setInt(4, item.rank.ordinal());
-            stmt.setInt(5, item.levelRequired);
-            stmt.setInt(6, item.dropProbability);
-            stmt.setInt(7, item.dropClimate.id);
-            stmt.addBatch(
-                "insert into resource ("
-                    + String.join(", ", RESOURCE_FIELDS)
-                + ") values ("
-                    + Stream.of(RESOURCE_FIELDS).map(e -> "?").collect(Collectors.joining(", "))
-                + ")"
+
+        stmt
+            .set(0, item.id)
+            .set(1, item.name)
+            .set(2, item.description)
+            .set(3, item.value)
+            .set(4, item.rank.ordinal())
+            .set(5, item.levelRequired)
+            .set(6, item.dropProbability)
+            .set(7, item.dropClimate.id)
+
+            .add(
+                db.prepare(
+                    "insert into resource ("
+                        + String.join(", ", RESOURCE_FIELDS)
+                    + ") values ("
+                        + Stream.of(RESOURCE_FIELDS).map(e -> "?").collect(Collectors.joining(", "))
+                    + ")"
+                ).set(0, item.id)
             );
-            stmt.setInt(0, item.id);
-            int count = stmt.executeUpdate();
-            // TODO Validate count?
-        } catch(SQLException e) {
-            // TODO Handle error
-            e.printStackTrace();
-        }
+        // TODO Validate count?
+        int count = stmt.exec();
+
         db.commit();
     }
 

@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -54,12 +53,13 @@ public class Database {
      * @param sql SQL request
      * @return the prepared statement
      */
-    public PreparedStatement prepare(String sql) {
+    public SqlQuery prepare(String sql) {
+        return new SqlQuery(connection, sql);/*
         try {
             return connection.prepareStatement(sql);
         } catch(SQLException e) {
             throw new RuntimeException("Couldn't prepare statement", e);
-        }
+        }*/
     }
 
     public void setAutoCommit(boolean autoCommit) {
