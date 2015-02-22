@@ -56,34 +56,12 @@ public class ResourceModel extends BaseModel<Resource> {
 
     @Override
     public Optional<Resource> get(int id) {
-        SqlQuery stmt = db.prepare(DEFAULT_QUERY + " where IdItem = ?").set(1, id);
-        List<Resource> exec;
-        try {
-            exec = query(stmt);
-        } catch(SQLException e) {
-            // TODO Throw?
-            return Optional.empty();
-        }
-        if(exec.size() == 0) {
-            return Optional.empty();
-        }
-        return Optional.of(exec.get(0));
+        return get(db.prepare(DEFAULT_QUERY + " where IdItem = ?").set(1, id));
     }
 
     @Override
     public Optional<Resource> get(String name) {
-        SqlQuery stmt = db.prepare(DEFAULT_QUERY + " where IdItem = ?").set(1, name);
-        List<Resource> resources;
-        try {
-            resources = query(stmt);
-        } catch(SQLException e) {
-            // TODO Throw?
-            return Optional.empty();
-        }
-        if(resources.size() == 0) {
-            return Optional.empty();
-        }
-        return Optional.of(resources.get(0));
+        return get(db.prepare(DEFAULT_QUERY + " where IdItem = ?").set(1, name));
     }
 
     @Override

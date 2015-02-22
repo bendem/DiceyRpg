@@ -42,34 +42,12 @@ public class ClimateModel extends BaseModel<Climate> {
 
     @Override
     public Optional<Climate> get(int id) {
-        SqlQuery query = db.prepare("select * from climate where IdClimate = ?").set(1, id);
-        List<Climate> climates;
-        try {
-            climates = query(query);
-        } catch(SQLException e) {
-            // TODO Throw?
-            return Optional.empty();
-        }
-        if(climates.size() == 0) {
-            return Optional.empty();
-        }
-        return Optional.of(climates.get(0));
+        return get(db.prepare("select * from climate where IdClimate = ?").set(1, id));
     }
 
     @Override
     public Optional<Climate> get(String name) {
-        SqlQuery query = db.prepare("select * from climate where Name = ?").set(1, name);
-        List<Climate> climates;
-        try {
-            climates = query(query);
-        } catch(SQLException e) {
-            // TODO Throw?
-            return Optional.empty();
-        }
-        if(climates.size() == 0) {
-            return Optional.empty();
-        }
-        return Optional.of(climates.get(0));
+        return get(db.prepare("select * from climate where Name = ?").set(1, name));
     }
 
     @Override
