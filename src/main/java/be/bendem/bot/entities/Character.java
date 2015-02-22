@@ -2,8 +2,9 @@ package be.bendem.bot.entities;
 
 import be.bendem.bot.entities.attributes.Attribute;
 import be.bendem.bot.entities.attributes.Attributes;
+import be.bendem.bot.utils.Identifiable;
 
-public abstract class Character {
+public abstract class Character implements Identifiable {
 
     private static final int BASE_HEALTH = 20;
     private static final int BASE_HEALTH_PER_LEVEL = 10;
@@ -27,6 +28,16 @@ public abstract class Character {
         this.level = level;
         this.maxHealth = computeHealth(level, attributes.get(Attribute.Constitution));
         this.currentHealth = maxHealth;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public int getLevel() {

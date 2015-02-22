@@ -1,6 +1,8 @@
 package be.bendem.bot.game;
 
-public class Climate {
+import be.bendem.bot.utils.Identifiable;
+
+public class Climate implements Identifiable {
 
     public final int id;
     public final String name;
@@ -11,4 +13,15 @@ public class Climate {
         this.name = name;
         this.description = description;
     }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
 }

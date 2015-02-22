@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * That class is crazy, I'll most likely regret it later, but still, PreparedStatement
- * are horrible!
+ * is horrible!
  */
 public class SqlQuery {
 

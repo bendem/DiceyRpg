@@ -1,8 +1,9 @@
 package be.bendem.bot.inventories.items;
 
 import be.bendem.bot.game.Climate;
+import be.bendem.bot.utils.Identifiable;
 
-public abstract class Item {
+public abstract class Item implements Identifiable {
 
     public final int id;
     public final String name;
@@ -24,6 +25,16 @@ public abstract class Item {
         this.dropProbability = dropProbability;
         this.dropClimate = dropClimate;
         this.type = type;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public enum Rank {
