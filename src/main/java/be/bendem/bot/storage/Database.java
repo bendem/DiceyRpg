@@ -1,9 +1,14 @@
 package be.bendem.bot.storage;
 
+import be.bendem.bot.game.Climate;
 import be.bendem.bot.inventories.items.Item;
+import be.bendem.bot.storage.models.ClimateModel;
 import be.bendem.bot.storage.models.ResourceModel;
+import org.h2.tools.RunScript;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -19,21 +24,31 @@ public class Database {
     private final Map<Class<?>, Model<?>> models;
 
     public Database(Path dbFile) throws SQLException {
+        boolean needsCreation = false;
         if(Files.notExists(dbFile)) {
             try {
                 Files.createDirectories(dbFile.getParent());
             } catch(IOException e) {
                 throw new RuntimeException("Could not create data folder for " + dbFile, e);
             }
+            needsCreation = true;
         }
         connection = DriverManager.getConnection("jdbc:h2:" + dbFile);
 
+        if(needsCreation) {
+            RunScript.execute(
+                connection,
+                new InputStreamReader(
+                    getClass().getClassLoader().getResourceAsStream("database.sql"), StandardCharsets.UTF_8
+                )
+            );
+        }
+
         Map<Class<?>, Model<?>> modelMap = new HashMap<>();
+        modelMap.put(Climate.class, new ClimateModel(this));
         modelMap.put(Item.class, new ResourceModel(this));
 
         this.models = Collections.unmodifiableMap(modelMap);
-
-        // TODO Migrations?
     }
 
     @SuppressWarnings("unchecked")
@@ -78,9 +93,19 @@ public class Database {
         }
     }
 
+    public void rollback() {
+        try {
+            connection.rollback();
+        } catch(SQLException e) {
+            throw new RuntimeException("Couldn't rollback", e);
+        }
+    }
+
     public void close() {
         try {
-            connection.close();
+            if(!connection.isClosed()) {
+                connection.close();
+            }
         } catch(SQLException e) {
             throw new RuntimeException("Could not close connection source", e);
         }

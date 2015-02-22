@@ -1,6 +1,6 @@
 package be.bendem.bot.storage;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface Model<T> {
@@ -10,7 +10,7 @@ public interface Model<T> {
      *
      * @return a collection containing all the item handled by this model
      */
-    public Collection<T> getAll();
+    public List<T> getAll();
 
     /**
      * Gets the item corresponding to the provided id.
@@ -33,6 +33,8 @@ public interface Model<T> {
 
     /**
      * Adds an item to the database.
+     * <p>
+     * The id of the item to insert in the database will be ignored.
      *
      * @param item the item to add
      */

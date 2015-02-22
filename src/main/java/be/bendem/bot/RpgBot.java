@@ -44,6 +44,9 @@ public class RpgBot {
         } catch (SQLException e) {
             throw new RuntimeException("Could not access setup db", e);
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(database::close));
+
         gameRegistry = new GameRegistry(database);
 
         client = new ClientBuilder()
