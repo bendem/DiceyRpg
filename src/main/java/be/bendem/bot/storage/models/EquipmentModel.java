@@ -1,6 +1,6 @@
 package be.bendem.bot.storage.models;
 
-import be.bendem.bot.inventories.items.Die;
+import be.bendem.bot.inventories.items.Equipment;
 import be.bendem.bot.inventories.items.Item;
 import be.bendem.bot.storage.Database;
 import be.bendem.bot.storage.GameRegistry;
@@ -16,22 +16,22 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DieModel extends BaseModel<Die> {
+public class EquipmentModel extends BaseModel<Equipment> {
 
-    private static final String DEFAULT_QUERY = "select * from die left join item on (die.IdItem = item.IdItem)";
+    private static final String DEFAULT_QUERY = "select * from equipment left join item on (equipment.IdItem = item.IdItem)";
     private static final String[] ITEM_FIELDS = { "IdItem", "Name", "Description", "Value", "Rank",
         "LevelRequired", "DropProbability", "DropClimate" };
-    private static final String[] DIE_FIELDS = { "IdItem", "Type", "Min", "Max", "CanFail" };
+    private static final String[] EQUIPMENT_FIELDS = { "IdItem", "EquipableSlot" };
 
     private final Database db;
 
-    public DieModel(Database db) {
+    public EquipmentModel(Database db) {
         this.db = db;
     }
 
     @Override
-    protected Die read(ResultSet resultSet) throws SQLException {
-        return new Die(
+    protected Equipment read(ResultSet resultSet) throws SQLException {
+        return new Equipment(
             resultSet.getInt("IdItem"),
             resultSet.getString("Name"),
             resultSet.getString("Description"),
@@ -40,15 +40,12 @@ public class DieModel extends BaseModel<Die> {
             resultSet.getInt("LevelRequired"),
             resultSet.getInt("DropProbability"),
             GameRegistry.getInstance().getClimate(resultSet.getInt("Climate")),
-            Die.Type.values()[resultSet.getInt("Type")],
-            resultSet.getInt("Min"),
-            resultSet.getInt("Max"),
-            resultSet.getBoolean("CanFail")
+            Equipment.Slot.values()[resultSet.getInt("EquipableSlot")]
         );
     }
 
     @Override
-    public List<Die> getAll() {
+    public List<Equipment> getAll() {
         try {
             return query(db.prepare(DEFAULT_QUERY));
         } catch(SQLException e) {
@@ -59,17 +56,17 @@ public class DieModel extends BaseModel<Die> {
     }
 
     @Override
-    public Optional<Die> get(int id) {
+    public Optional<Equipment> get(int id) {
         return get(db.prepare(DEFAULT_QUERY + " where IdItem = ?").set(1, id));
     }
 
     @Override
-    public Optional<Die> get(String name) {
+    public Optional<Equipment> get(String name) {
         return get(db.prepare(DEFAULT_QUERY + " where Name = ?").set(1, name));
     }
 
     @Override
-    public void add(Die item) {
+    public void add(Equipment item) {
         db.setAutoCommit(false);
         SqlQuery stmt = db.prepare(
             "insert into item ("
@@ -92,16 +89,13 @@ public class DieModel extends BaseModel<Die> {
             .add(
                 db.prepare(
                     "insert into resource ("
-                        + String.join(", ", DIE_FIELDS)
+                        + String.join(", ", EQUIPMENT_FIELDS)
                         + ") values ("
-                        + Stream.of(DIE_FIELDS).map(e -> "?").collect(Collectors.joining(", "))
+                        + Stream.of(EQUIPMENT_FIELDS).map(e -> "?").collect(Collectors.joining(", "))
                         + ")"
                 )
                     .set(1, item.id) // FIXME This is not right, need to insert both at once or get the id of the inserted item
-                    .set(2, item.type.ordinal())
-                    .set(3, item.min)
-                    .set(4, item.max)
-                    .set(5, item.canFail)
+                    .set(2, item.equipmentSlot.ordinal())
             );
 
         if(stmt.exec() != 2) {
@@ -113,9 +107,8 @@ public class DieModel extends BaseModel<Die> {
     }
 
     @Override
-    public void update(Die item) {
+    public void update(Equipment item) {
         // TODO
         throw new UnsupportedOperationException();
     }
-
 }

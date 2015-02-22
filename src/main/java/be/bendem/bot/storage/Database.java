@@ -1,8 +1,12 @@
 package be.bendem.bot.storage;
 
 import be.bendem.bot.game.Climate;
+import be.bendem.bot.inventories.items.Die;
+import be.bendem.bot.inventories.items.Equipment;
 import be.bendem.bot.inventories.items.Resource;
 import be.bendem.bot.storage.models.ClimateModel;
+import be.bendem.bot.storage.models.DieModel;
+import be.bendem.bot.storage.models.EquipmentModel;
 import be.bendem.bot.storage.models.ResourceModel;
 import org.h2.tools.RunScript;
 
@@ -48,6 +52,8 @@ public class Database {
         Map<Class<?>, Model<?>> modelMap = new HashMap<>();
         modelMap.put(Climate.class, new ClimateModel(this));
         modelMap.put(Resource.class, new ResourceModel(this));
+        modelMap.put(Die.class, new DieModel(this));
+        modelMap.put(Equipment.class, new EquipmentModel(this));
 
         this.models = Collections.unmodifiableMap(modelMap);
     }
