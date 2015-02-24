@@ -13,6 +13,7 @@ import be.bendem.bot.storage.GameRegistry;
 import org.kitteh.irc.client.library.Client;
 import org.kitteh.irc.client.library.ClientBuilder;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -43,6 +44,8 @@ public class RpgBot {
             database = new Database(dataFolder.resolve("db.h2"));
         } catch (SQLException e) {
             throw new RuntimeException("Could not access setup db", e);
+        } catch(IOException e) {
+            throw new RuntimeException("Problem while initializing database", e);
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(database::close));

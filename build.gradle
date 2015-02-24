@@ -1,11 +1,13 @@
 plugins {
-  id 'java'
-  id 'com.github.johnrengelman.shadow' version '1.2.0'
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '1.2.0'
 }
 
 group = 'be.bendem.bot'
 version = '1.0'
 description = "RpgBot"
+mainClassName = 'be.bendem.bot.RpgBot'
 
 // Minimum Java version required
 sourceCompatibility = '1.8'

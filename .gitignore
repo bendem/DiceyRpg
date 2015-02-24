@@ -9,3 +9,4 @@ target/
 *.bat
 *.sh
 *.iml
+migrations.txt

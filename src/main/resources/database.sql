@@ -25,7 +25,9 @@ drop table if exists room_contains_monster;
 
 create table character (
     IdCharacter int not null auto_increment,
-    constraint character_pk primary key ( IdCharacter )
+    Name varchar(50) not null,
+    constraint character_pk primary key ( IdCharacter ),
+    CONSTRAINT u_character_name UNIQUE (Name)
 );
 
 create table player_equips_equipment (
@@ -59,7 +61,8 @@ create table climate (
     IdClimate int not null auto_increment,
     Name varchar(50) not null,
     Description clob,
-    constraint climate_pk primary key ( IdClimate )
+    constraint climate_pk primary key ( IdClimate ),
+    CONSTRAINT u_climate_name UNIQUE (Name)
 );
 
 create table climate_modifies_attribute (
@@ -121,12 +124,12 @@ create table item (
     LevelRequired smallint not null, -- Level required to equip (people should have more chances to drop stuff close to or below their level)
     DropProbability smallint not null, -- 1 chance out of the value
     DropClimate int, -- the climate the item can be dropped in (or null if not bound to a climate)
-    constraint item_pk primary key ( IdItem )
+    constraint item_pk primary key ( IdItem ),
+    constraint u_item_name unique ( Name )
 );
 
 create table monster (
     IdCharacter int not null auto_increment,
-    Name varchar(50) not null,
     Boss boolean default false not null,
     Description clob,
     constraint monster_pk primary key ( IdCharacter )
@@ -140,8 +143,6 @@ create table monster_has_die (
 
 create table player (
     IdCharacter int not null auto_increment,
-    Username varchar(50) not null, -- unique
-    Password varchar(255) not null, -- should move to an account table with register time, last login and such informations
     Level smallint default 1 not null,
     Experience int default 0 not null,
     Money bigint default 0 not null,
